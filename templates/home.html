@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+  <div class="jumbotron text-left">
+    <h1> Benvenuto nel portale</h1>
+    <p class ="lead">This application is built on the Python Flask framework</p>
+    {% if session.logged_in == NULL %}
+      <a href="/register" class="btn btn-primary btn-lg">Register</a>
+      <a href="/login" class="btn btn-success btn-lg">Login</a>
+    {% else %}
+      <a href="/analyzed_audios" class="btn btn-success btn-lg">Access</a>
+      <a href="/audio" class="btn btn-success btn-lg">Access</a>
+    {% endif %}
+
+  </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+  <form method="POST" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <label for="text_title">Text title:</label>
+      <input type="text" name="text_title" id="text_title" value="{{request.form.text_title}}" class="form-control" style="width:30%"/>
+    </div>
+
+
+    <div class="form-group">
+      <label for="period">Periodo anno:</label>
+      <input type="radio" name="period" value="Inizio">Inizio</input>
+      <input type="radio" name="period" value="Fine">Fine</input>
+    </div>
+      
+    <div class="form-group"> 
+      <label for="class">Classe:</label>
+      <select name="class" id="class" class="select picker form-group">
+        <option selected="selected">Seleziona una classe</option>
+        {% for c in classes %}
+          <option value={{c}}>{{c}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+
+    <label for="text_font">Font:</label>
+    <div class="form-group">
+      <select name="text_font" id="text_font" class="select picker form-group">
+        <option selected="selected">Seleziona un font</option>
+        <option value="Arial">Arial</option>
+        <option value="Comic_Sans_MS">Comic Sans MS</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Times_New_Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="container">
+      <label for="input_text">Testo<small><i>(deve essere lungo almeno 30 caratteri)</i></small>:</label>
+
+      <div class="twrap">
+        <textarea name="textarea" id="input_text" style="width:100%;height:250px"></textarea>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <p><button type="submit" class="btn btn-success btn right" id="sub_but">Sottometti</button></p>
+    </div>
+  </form>
+
+  <!--
+  <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script><script type="text/javascript">
+    bkLib.onDomLoaded(function() { new nicEditor({buttonList : []}).panelInstance('input_text') });
+  </script>
+  -->
+
+{% endblock %}

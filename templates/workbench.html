@@ -1,0 +1,392 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+  <style type="text/css">
+    body {
+      position: relative;
+    }
+
+    .lista-errori {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      background-color : rgb(227, 245, 247);
+      width: 500px;
+      height: 265px;
+      border: 5px solid gray;
+      overflow: auto;
+      border-radius: 20px;
+      display: none;
+    }
+
+    #errorList {
+      background-color : white;
+      overflow: auto;
+      width: 50%;
+      padding: 5px;
+    }
+
+    option {
+      border-bottom: 1px solid gray;
+    }
+
+    #closeErrors {
+      background-color: white;
+      width: 100%;
+      height: 17px;
+    }
+
+    #closeErrors:hover {
+      color: yellow;
+      border-color: yellow;
+    }
+
+    .word {
+      font-size: 18px;
+    }
+
+    .highlight-word {
+      cursor: pointer;
+    }
+
+    .sostitution{
+      color: darkred;
+    }
+
+    .omission{
+      color: darkred;
+      text-decoration: line-through;;
+    }
+
+    .repetition{
+      color: darkblue;
+    }
+
+    .selected {
+      font-size: 200%;
+    }
+
+    .unchecked {
+      color: darkred;
+    }
+
+    .checked {
+      color: darkgreen;
+    }
+
+    .resize-icon {
+      float: left;
+      vertical-align: top;
+      width: 17px;
+      height: 17px;
+    }
+
+    .resize-icon:hover{
+      border: 2px solid blue;
+    }
+
+    #send-errors {
+      visibility: hidden;
+      margin-left: 5px;
+    }
+
+    #write_error {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    #write_error:hover {
+      color: white;
+      cursor: pointer;
+    }
+
+    #back_ref {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    #back_ref:hover {
+      color: white;
+      cursor: pointer;
+    }
+
+    .text-container {
+      overflow: none; 
+      width: 65%;
+    }
+
+    .info-container {
+      width: 35%;
+      position: fixed;
+      top: 65px; 
+      right: 10px;
+      padding: 5px;
+      border: 2px solid gray;
+      border-radius: 10px;
+      background-color : rgb(255, 255, 255);
+      padding-bottom: 0;
+    }
+
+    .info-container > p{
+      border-bottom: 1px solid gray;
+    }
+
+    .column {
+      float:left;
+      padding-left: 5px;
+    }
+
+    .left {
+      width: 65%;
+    }
+
+    .right {
+      width: 35%;
+    }
+
+    .row:after {
+      content: "";
+      display: table;
+    }
+
+    input[type="radio"] {
+      margin: 0 10px 0 10px ;
+    }
+  </style>
+
+  <div class="row">
+    <div class="text-container column">
+      <input type="hidden" id="trans_id" data="{{transcription.id}}">
+      <article>
+        {% for n in rows %}
+          {% for p in prova %}
+            {% if p.row==n%}
+              {% if p.isError %}
+                <span id="pos_{{p.pos}}" class="word highlight-word unchecked" time="{{ p.time }}" word_id="{{p.id}}" err_type="{{p.err_type}}" err_weight="{{p.err_weight}}" err_corr="False" err_checked="{{p.checked}}">{{ p.word }}
+                  {% for e in p.prb_wrds %}
+                    <input type="hidden" class="pos_{{p.pos}}" prob="{{e.prob}}" word="{{e.word}}" sel="{{e.sel}}">
+                  {% endfor %}
+                </span>
+              {% else%}
+                <span id="pos_{{p.pos}}" class="word" time="{{ p.time }}" changes="False" word_id={{p.id}} err_type="" err_weight="" err_corr="False">{{ p.word }}</span>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          <br>
+        {% endfor %}
+      </article>
+    </div>
+    <div class="info-container column">
+      <p><strong>Nome Paziente:</strong> {{patient.name}} {{patient.surname}}</p>
+      <p><strong>ID Paziente:</strong> {{patient.cf}}</p>
+      {% for i in infos%}
+        <p><strong>{{i.title}}:</strong> {{i.val}}</p>
+      {% endfor %}
+      <audio controls id="audiofile" style="width: 100%; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
+        <source src="{{audio}}" type="audio/flac">
+        Your browser does not support the audio element
+      </audio>
+
+    </div>
+  </div>
+
+  <div class="lista-errori" flag="false">
+    <div style="padding: 10px;">
+      <div style="border-bottom: 1px solid gray; margin-bottom: 10px; padding-bottom: 10px;">
+      <label>Tipo Errore:  </label><br>
+        <input type="radio" id="err_sostituzione" name="error_type" class="radioerror" value="sostituzione">sostituzione
+        <input type="radio" id="err_omissione" name="error_type" class="radioerror" value="omissione">omissione
+        <input type="radio" id="err_aggiunta" name="error_type" class="radioerror" value="aggiunta">aggiunta
+        <input type="radio" id="err_pausa" name="error_type" class="radioerror" value="pausa">pausa<br>
+        <input type="radio" id="err_accento" name="error_type" class="radioerror" value="accento">accento
+        <input type="radio" id="err_esitazione" name="error_type" class="radioerror" value="esitazione">esitazione
+        <input type="checkbox" id="err_autocorrezione" style="margin: 0 10px 0 10px ;" name="autocorrezione">autocorrezione
+      </div>
+      <div style="border-bottom: 1px solid gray; margin-bottom: 10px; padding-bottom: 10px;">
+        <label>Peso Errore:  </label><br>
+        <input type="radio" id="err_1.0" name="error_weight" value="1.0">1.0
+        <input type="radio" id="err_0.5" name="error_weight" value="0.5">0.5
+      </div>
+      <div style="width: 100%; margin-bottom: 10px">
+        <div style="width: 60%; float: left;">
+          <label for="errorlist">Parole probabili:</label>
+          <select id="errorList">
+            <option val="0" selected="selected">Seleziona</option>
+          </select>
+        </div>
+        <div style="width: 40%; float: left;">
+          <input id="err_input" type="text" name="input-error" placeholder="Inserisci parola">
+        </div>
+      </div>
+      <div class="pull-left" style="width: 35%; margin-top: 10px;">
+        <button id="err-checked" class="btn btn-default">Salva</button>
+        <button id="remove-error" class="btn btn-danger pull-right">Rimuovi</button>
+      </div>
+
+    </div>
+  </div>
+
+
+    <script type="text/javascript">
+
+      $(function(){
+        //Sets checked to word with error already selected
+        $(".highlight-word").each(function(){
+
+          if ($(this).attr("err_checked") == "True"){
+           $(this).removeClass("unchecked")
+           .addClass("checked");
+          }
+
+          if ($(this).attr("err_type") == "Ripetizione/Aggiunta"){
+            $(this).removeClass("unchecked")
+           .addClass("repetition");
+          }
+
+          if ($(this).attr("err_type") == "Omissione"){
+            $(this).removeClass("unchecked")
+           .addClass("omission");
+          }
+        });
+
+        //Click su una parola
+        $(".word").click(function(e){
+          word_click(this);
+        });
+
+        //click su salva
+        $(document).on("click", "#err-checked", function(){
+          //controlli per vedere se selezionato tutto
+
+          if($("input[name='error_type']:checked").length > 0){
+            if($("input[name='error_weight']:checked").length > 0){
+              $(".lista-errori").attr("flag", "false").hide()
+              $(".selected").addClass("checked").removeClass("selected unchecked")
+              var err_a = false;
+              if ($("#err_autocorrezione").is(":checked")){
+                err_a = true;
+              }
+              //post per query a db con valori
+              $.post('/errors_submission', {
+                "w_id": $("#"+$(".lista-errori").attr("data")).attr("word_id"),
+                "trans": $("#trans_id").attr("data"),
+                "err_type": $("input[name=error_type]:checked").val(),
+                "err_weight": $("input[name=error_weight]:checked").val(),
+                "err_a": err_a,
+                "err_w": $("#err_input").val(),
+              });
+            }else{
+              alert("Scegliere un peso per l'errore")
+            }
+          }else{
+            alert("Scegliere un tipo di errore")
+          }
+        });
+
+        //chiusura finestra su click fuori essa
+        $(document).on("click", function(event){
+          if($(".lista-errori").attr("flag") == "true"){
+            if(!$(event.target).closest(".lista-errori").length){
+              if($(".lista-errori").css("visibility")=="visible") {
+                $(".lista-errori").attr("flag", "false").hide();
+                setFontDim(this)
+              }
+            }
+          }else{
+            $(".lista-errori").attr("flag", "true")
+          }
+        });
+
+      });
+
+      $(document).on("click", "#remove-error", function(){
+        $(".lista-errori").hide()
+        $(".selected").removeClass("selected unchecked highlight-word checked omission repetition")
+        $.post("/remove_error", {
+          "w_id": $("#"+$(".lista-errori").attr("data")).attr("word_id"),
+          "trans": $("#trans_id").attr("data"),
+        });
+
+      });
+
+      function setFontDim(word){
+        $(".selected").removeClass("selected")
+        $(word).addClass("selected");
+      }
+
+      function word_click(word){
+        setFontDim(word)
+        $('input[name="error_type"]').attr('checked', false)
+        $('input[name="error_weight"]').attr('checked', false)
+        $('#err_autocorrezione').attr('checked', false)
+        var id_w = $(word).attr('id');
+
+        create_prob_words_list(word);
+
+        $(".lista-errori")
+        .attr("data", id_w)
+        .css({
+          "left": (parseInt($(word).position().left, 10)+280).toString() + 'px',
+          "top": (parseInt($(word).position().top, 10)+180).toString() + 'px',
+        })
+        .show();
+
+        senderrorsCheck(word)
+
+        var w_time = parseFloat($(word).attr("time"));
+        document.getElementById("audiofile").currentTime = w_time;
+      }
+
+      function create_prob_words_list(word){
+        $(word).children().each(function(){
+          var prob = $(this).attr('prob')
+          var word = $(this).attr('word')
+          $('#errorList')
+          .append($("<option class='error' value='"+word+"'> - "+word+" ("+prob+")</option>"))
+        })
+        $('#errorList')
+      }
+
+      function create_err_list(word){
+        $('<p class="new_err_warn"><span>Error not in the list?</span><br><span id="write_error">Write it</span></p>')
+        .insertAfter("#closeErrors")
+        $(word).children().each(function(){
+          var tipo = $(this).attr('tipo');
+          var prob = $(this).attr('prob');
+          var word = $(this).attr('word');
+          var sel = $(this).attr('sel')
+          $("#errorList")
+          .append($("<li class='error' err_id='"+this.id+"'>").css({
+            "padding": "0px",
+            "border-bottom": "1px solid gray"
+          })
+          .append($("<p><strong>Tipo Errore:</strong><br>"+tipo+"</p>")
+          .append($("<p><strong>Probabilità errore:</strong><br>"+prob+"</p>")
+          .append($("<option class='error' value='"+word+"'>"+word+" "+prob+"</option>")
+          .append($("<p>").append(function(){
+            if (sel == "False"){
+              return $("<button class='errorSelect' type='submit'>Select</button>");
+            }else{
+              return $("<button class='removeError btn-danger' type='submit'>Remove</button>");
+            }
+          }
+        ))))))});
+      }
+
+      function senderrorsCheck(word){
+        var flag = "False"
+        //se lunghezza lista radio selezionati>0 allora
+
+        $(word).children().each(function(){
+          if($(this).attr("changed") == "True"){
+            flag = "True"
+          }
+        })
+        if (flag == "True"){
+          $("#send-errors").css({"visibility": "visible"});
+        }else{
+          $("#send-errors").css({"visibility": "hidden"});
+        }
+      }
+    </script>
+{% endblock %}

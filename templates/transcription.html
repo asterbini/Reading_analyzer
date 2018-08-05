@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1> Trascrizione </h1>
+  <small>Analyzed by {{transcription.id}} on {{transcription.update_date}}</small>
+  <hr>
+
+    <div>
+      {{ transcription }}
+    </div>
+
+{% endblock %}

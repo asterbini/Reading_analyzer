@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+  
+  <style type="text/css">
+    input[type="radio"] {
+      margin: 0 10px 0 10px ;
+    }
+  </style>
+
+  <form method="POST" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <label for="patient_name">Nome Paziente</label>
+      <input type="text" name="patient_name" id="patient_name" value="{{request.form.patient_name}}" class="form-control" style="width:30%"/>
+    </div>
+
+    <div class="form-group">
+      <label for="patient_name">Cognome Paziente</label>
+      <input type="text" name="patient_surname" id="patient_surname" value="{{request.form.patient_surname}}" class="form-control" style="width:30%"/>
+    </div>
+
+    <div class="form-group">
+      <label for="patient_id">ID Paziente</label>
+      <input type="text" name="patient_id" id="patient_id" value="{{request.form.patient_id}}" class="form-control" style="width:30%"/>
+    </div>
+
+    <div class="form-group">
+      <label for="birthday">Data di nascita <small>(yyyy-mm-dd)</small></label>
+      <input type="text" name="birthday" id="birthday" value="{{request.form.patient_bday}}" class="form-control" style="width:30%"/>
+    </div>
+
+    <div class="form-group">
+      <label>Sesso</label>
+      <input type="radio" name="gender" id="gen_m" value="M"/>
+      <label for="gen_m">M</label>
+      <input type="radio" name="gender" id="gen_f" value="F"/>
+      <label for="gen_f">F</label>
+    </div>
+
+    <div class="form-group">
+      <label for="text_select">Testo<small><i>(*)</i></small></label><br>
+      <select name="text_select" id="text_select" class="select picker form-group">
+        <option selected="selected">Select a text</option>
+      {% for text in texts %}
+        <option value="{{text.title}}">{{ text.title }}</option>
+      {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="audio_file">Audio File</label>
+      <input type="file" name="audio_file" id="audio_file" accept=".flac"/>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-success btn-success down">Submit</button>
+    </div>
+
+    <small><i>(*)Se non sono presenti testi nella lista si prega di sottometterne uno</i></small>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	
+	<style type="text/css">
+		textarea {
+			width: 100%;
+			height: 100%;
+			resize: none;
+		}
+	</style>
+
+	<h2> {{text.title}}
+		<small>Added on {{text.update_date}}</small>
+	</h2>
+	<hr>
+	<form method="POST" enctype="multipart/form-data">
+		<div style="height: 620px;" class="form-group">
+			<textarea name="mod_text">{{text.body}}</textarea>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-success btn-success down">Submit</button>
+		</div>
+	</form>
+{% endblock %}

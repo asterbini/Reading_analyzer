@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+  <form method="POST" enctype="multipart/form-data">
+
+
+    <div class="form-group">
+      <label for="adjacents">Set number of adjacents to check with algorithms: </label>
+      <input type="number" name="adjacents" id="adjiacents" value="{{ adjacents }}" min="0" step="1" style="width:80px;height:30px"></input>
+    </div>
+
+    <div class="form-group">
+      <label for="algorithms">Set what algorithms to use:</label>
+      <fieldset id="algorithms">
+        {% if session.simple == "true" %}
+          <input type="checkbox" name="simple" id="simple" checked> Parole uguali</input></li><br />
+          <input type="hidden" name="simpleHidden" id="simpleHidden" value="true"></input>
+        {% else %}
+          <input type="checkbox" name="simple" id="simple"> Parole uguali</input></li><br />
+          <input type="hidden" name="simpleHidden" id="simpleHidden" value="false"></input>
+        {% endif %}
+        {% if session.lev == "true" %}
+          <input type="checkbox" name="lev" id="lev" checked> Levensthein</input></li>
+          <input type="hidden" name="levHidden" id="levHidden" value="true"></input>
+        {% else %}
+          <input type="checkbox" name="lev" id="lev"> Levensthein</input></li>
+          <input type="hidden" name="levHidden" id="levHidden" value="false"></input>
+        {% endif %}
+
+      </fieldset>
+    </div>
+
+    <div class="form-group">
+      <p><button type="submit" class="btn btn-success btn right" id="sub_but">Submit</button></p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $("#simple").click(function(){
+          var b1 = $('#simpleHidden').val();
+          if(b1=="true"){
+             $('#simpleHidden').val("false");
+          }else{
+            $('#simpleHidden').val("true");
+          }
+        });
+        $("#lev").click(function(){
+          var b2 = $('#levHidden').val();
+          if(b2=="true"){
+            $('#levHidden').val("false");
+          }else{
+            $('#levHidden').val("true");
+          }
+        });
+      });
+    </script>
+
+
+
+  </form>
+
+
+  {% endblock %}

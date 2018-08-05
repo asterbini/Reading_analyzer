@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+
+  <form method="POST" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <label for="text_title">Text title</label>
+      <input type="text" name="text_title" id="text_title" value="{{request.form.text_title}}" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+      <label for="text_body">Text body</label>
+      <input type="text" name="text_body" id="text_body" value="{{request.form.text_body}}" class="form-control"/>
+    </div>
+
+    <div class="form-group">
+      <label for="text_file">Text File</label>
+      <input type="file" name="text_file" id="text_file" accept=".txt"/>Select a file to upload</input>
+    </div>
+
+    <div class="form-group" id="editor"></div>
+    <div class="form-group">
+      <p><button type="submit" class="btn btn-success btn right">Submit</button></p>
+    </div>
+
+  </form>
+
+
+{% endblock %}

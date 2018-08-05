@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h2> {{text.title}}
+  	<small>Added on {{text.update_date}}</small>
+  </h2>
+  <hr>
+  <article style="white-space: pre;">
+    {{text.body}}
+  </article>
+{% endblock %}

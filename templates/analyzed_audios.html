@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block body%}
+    <style type="text/css">
+
+    #aupload {
+      color: black;
+      border-color: grey;
+      background-color: lightgreen;
+      border: 1px solid;
+      cursor:pointer;
+    }
+
+    #aupload:hover {
+      background-color: lightblue;
+    }
+
+  </style>
+
+  <h1>Analyzed Audios
+    <a href="/audio_upload" id="aupload" class="btn pull-right">Upload new audio </a>
+  </h1>
+  <table class="table table-striped">
+    <tr>
+      <th>Patient Name</th>
+      <th>Patient ID</th>      
+      <th>Update Date</th>
+      <th>Read text</th>
+      <th>Year</th>
+      <th>Period</th>
+    </tr>
+    {% for transcription in transcriptions %}
+      <tr>
+        <td>{{transcription.name}} {{transcription.surname}}</td>
+        <td>{{transcription.cf}}</td>
+        <td>{{transcription.update_date}}</td>
+        <td>{{transcription.title}}</td>
+        <td>{{transcription.schoolyear}}</td>
+        <td>{{transcription.period}}</td>
+        <td><a href="workbench_{{transcription.id}}" class="btn btn-default">Open</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

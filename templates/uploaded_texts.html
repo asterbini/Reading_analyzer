@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <style type="text/css">
+
+    #aupload {
+      color: black;
+      border-color: grey;
+      background-color: lightgreen;
+      border: 1px solid;
+      cursor:pointer;
+    }
+
+    #aupload:hover {
+      background-color: lightblue;
+    }
+
+  </style>
+  <h1 style="width: 94%;">Texts
+    {% if session.logged_in %}
+      <a href="/text_upload" id="aupload" class="btn pull-right">Upload new text </a>
+    {% endif %}
+  </h1>
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th>
+      <th>Date</th>
+    </tr>
+    {% for text in texts %}
+      <tr>
+        <td>{{text.title}}</td>
+        <td>{{text.update_date}}</td>
+        {% if session.logged_in %}
+          <td><a href="/read_text/{{text.id}}" class="btn btn-default pull-right">Read</a></td>
+          <td><a href="/edit_text/{{text.id}}" class="btn btn-default">Edit</a></td>
+          <td><a href="/delete_text/{{text.id}}" class="btn btn-danger">Delete</a></td>
+        {% else %}
+          <td><a href="/read_text/{{text.id}}" class="btn btn-default pull-right">Read</a></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+
+
+{% endblock %}
