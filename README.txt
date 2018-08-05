@@ -22,7 +22,7 @@
     https://cloud.google.com/speech-to-text/docs/quickstart-protocol
     per creare un nuovo account google cloud, un nuovo progetto e scaricare la chiave per utilizzare i servizi google cloud
 10- installare il file dsa-database.sql tra quelli scaricati:
-    mysql -u [username] -p dsa_db < dsa-database.sql
+    mysql -u [username] -p dsa_db < mysql_dump.sql
     dove username sarà = "root" e il file .sql sarà quello nella directory principale del progetto
     il database in cui sarà importato il database nel file .sql deve essere già creato localmente con il nome dsa_db
 11- attivare rabbitmq-server:
