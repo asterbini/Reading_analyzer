@@ -17,6 +17,7 @@ def diff_t(transcription, original_text):
     return diff
 
 def get_errors(difflist):
+    print(difflist)
     result = []
     for i in range(len(difflist)):
         if difflist[i][0]=='-' or difflist[i][0]==' ':

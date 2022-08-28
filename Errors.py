@@ -15,23 +15,23 @@ def entire_words(text, transcrption, k):
     for w in transcription:
         if w != rword:
             if w == rword.precedent:
-                print "Ripetizione parola"
+                print("Ripetizione parola")
                 error_dict[rword] = (w, "Ripetizione parola")
                 rword = rword.precedent
-            elif w == rword.next:
-                print "Salto parola"
+            elif w == rword.__next__:
+                print("Salto parola")
                 error_dict[rword] = (w, "Salto parola")
-                rword = rword.next
+                rword = rword.__next__
             elif w == rword.precedent.up:
-                print "Salto in su"
+                print("Salto in su")
                 error_dict[rword] = (w, "Salto in su")
                 rword = rword.up
             elif w == rword.precedent.down:
-                print "Salto in giù"
+                print("Salto in giù")
                 error_dict[rword] = (w, "Salto in giù")
                 rword = rword.down
         else:
-            rword = rword.next
+            rword = rword.__next__
     return error_dict
 
 
@@ -40,10 +40,10 @@ def rec_alg(w, rword, description, k, i):
         return None
     elif w == str(rword):
         return (description, i)
-    for key, value in rword.adjacents().items():
+    for key, value in list(rword.adjacents().items()):
         if w == str(value):
             return (description+" "+key, i)
-    for key, value in rword.adjacents().items():
+    for key, value in list(rword.adjacents().items()):
         if value != None:
             res = rec_alg(w, value, description+" "+key, k, i+1)
         if res != None:
@@ -68,17 +68,17 @@ def similar_words(text, transcription, k):
                     if move == "now":
                          rword = rword
                     elif move == "next":
-                        rword = rword.next
+                        rword = rword.__next__
                     elif move == "up":
                         rword = rword.up
                     elif move == "precedent":
                         rword = rword.precedent
                     elif move == "down":
                         rword = rword.down
-                rword = rword.next
+                rword = rword.__next__
             else:
                 error_list.append({"error": "Giusta", "word": str(rword)})
-                rword = rword.next
+                rword = rword.__next__
 
             '''
             rword_adj = rword.get_adjacents()
@@ -98,18 +98,18 @@ def similar_words(text, transcription, k):
 
         else:
             error_list.append({"error": "Giusta", "word": str(rword)})
-            rword = rword.next
+            rword = rword.__next__
     return error_list
 
 
 def rec_similar(w, rword, description, k, i, list_sim):
     if str(i) == k:
         return list_sim
-    print w.encode('utf-8')+" "+str(rword)+" "+str(i)
+    print(w.encode('utf-8')+" "+str(rword)+" "+str(i))
 
     retlist = list_sim
 
-    for key, value in rword.adjacents().items():
+    for key, value in list(rword.adjacents().items()):
         flag = True
         perc = ratio(w.encode('utf-8'), str(value))
         if perc>0.7:
@@ -123,7 +123,7 @@ def rec_similar(w, rword, description, k, i, list_sim):
             if flag:
                 list_sim.append({"desc": description+" "+key, "val": str(value), "p": perc})
 
-    for key, value in rword.adjacents().items():
+    for key, value in list(rword.adjacents().items()):
         if value != None:
             res = rec_similar(w, value, description+" "+key, k, i+1, list_sim)
             if res != None:
@@ -142,7 +142,7 @@ def levenshteinDistance(s1, s2):
     if len(s1) > len(s2):
         s1, s2 = s2, s1
 
-    distances = range(len(s1) + 1)
+    distances = list(range(len(s1) + 1))
     for i2, c2 in enumerate(s2):
         distances_ = [i2+1]
         for i1, c1 in enumerate(s1):

@@ -1,6 +1,34 @@
 # Reading_analyzer
 
 /////////////////////////////////////////////////////////////////
+/////	Installazione con Anaconda                            ///
+/////////////////////////////////////////////////////////////////
+
+0-  installare il database mysql o maridb ed il client mysql
+1-  installare la distribuzione python Anaconda o Miniconda
+2-  creare un environment con i pacchetti necessari
+    `conda create -n dsa-reading -f dsa-reading.env.yaml`
+3-  Attivare l'environment
+    `. activate dsa-reading`
+4-  installare i pacchetti rimanenti con pip
+    `pip install celery-amqp-backend pytaglib`
+5-  creare l'utente `dsa-reading` ed il database con lo stesso nome in mysql
+6-  importare il dump del database 
+    (quando viene richiesto inserire la password scelta alla creazione dell'utente)
+    `mysql -u dsa-reading -p dsa-reading < dumps/dsa-reading.sql`
+7-  installare il pacchetto `rabbitmq-server`
+    `dnf install rabbitmq-server`
+    oppure
+    `apt install rabbitmq-server`
+8-  attivare rabbitmq-server:
+    sudo systemctl start rabbitmq-server.service
+9-  Lanciare il server web e il client Celery con la configurazione d'accesso al progetto
+    su cloud google (vedi email)
+    `make`
+
+Nota: per uccidere i due processi usare Control-C e poi `pkill -f main_p.py`
+
+/////////////////////////////////////////////////////////////////
 /////	Installazione componenti necessari al funzionamento   ///
 /////   Sistema operativo Linux Ubuntu 16.04 64 bit   ///////////
 /////////////////////////////////////////////////////////////////
@@ -32,3 +60,4 @@
     celery -A [path to]/main_p.celery worker --loglevel=INFO
 
 Al termine di questo procedimento il sistema funzionerà in locale all'indirizzo indicato quando si esegue main_p.py
+

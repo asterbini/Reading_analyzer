@@ -1,5 +1,7 @@
 #   coding=utf-8
 
+punctuation = "',;.!?^()/*-+:"
+
 def nclean(string):
     result = ''
     for i in range(len(string)):

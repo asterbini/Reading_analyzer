@@ -9,7 +9,7 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators,
 from passlib.hash import sha256_crypt
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from _gFunctions import short_audio, long_audio, upload_file, download_blob, list_blobs
 from PIL import ImageFont
 from Diff import diff_t, get_errors, get_extensions
@@ -19,8 +19,9 @@ from celery import Celery
 import os, six, json
 import soundfile
 
-
-
+BUCKET_NAME = 'speech-to-text-long-audio'
+DEBUG=True
+DEBUG=False
 
 #//////////setting flask
 app = Flask(__name__)
@@ -29,16 +30,18 @@ app.config['UPLOAD_FOLDER'] = "static/audio_files/"
 
 
 #//////////setting mysql connection
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:123456@localhost:3306/dsa_db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://root:123456@localhost:3306/dsa_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://dsa_reading:R5HX)pl-)z4).wf-@localhost:3306/dsa_reading?unix_socket=/var/lib/mysql/mysql.sock'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
 #//////////setting celery tasks
 app.config['CELERY_BROKER_URL']='amqp://localhost'
-app.config['CELERY_RESULT_BACKEND']='amqp://localhost'
-celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
-celery.conf.update(app.config)
+#app.config['CELERY_RESULT_BACKEND']='amqp://localhost'
+app.config['CELERY_RESULT_BACKEND']='celery_amqp_backend.AMQPBackend://localhost'
+celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'],backend=app.config['CELERY_RESULT_BACKEND'])
+#celery.conf.update(app.config)
 
 
 
@@ -77,15 +80,17 @@ def login():
     if request.method == 'POST':
         #Get Form fields
         username = request.form['username']
-        password_candidate = request.form['password']
+        password_candidate = str(request.form['password'].encode('utf-8'))
 
 
         #Get user by Username
         result = Supervisors.query.filter_by(username=username).first()
-        if result > 0:
+        if result:
             #get sotred hash
             #supervisor_id = result.id
             password = result.password
+
+            print(password_candidate, password)
 
             #Compare Passwords
             if sha256_crypt.verify(password_candidate, password):
@@ -93,8 +98,8 @@ def login():
                 session['username'] = username
                 session['id'] = result.id
                 session['adjacents'] = 0
-                for i in algorithms:
-                    session[i] = False
+                #for i in algorithms:
+                #    session[i] = False
 
                 flash('Yot are now logged in', 'success')
 
@@ -111,14 +116,14 @@ def login():
 
 
 def is_logged_in(f):
-	@wraps(f)
-	def wrap(*args, **kwargs):
-		if 'logged_in' in session:
-			return f(*args, **kwargs)
-		else:
-			flash('Unauthorized, Please login', 'danger')
-			return redirect(url_for('login'))
-	return wrap
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please login', 'danger')
+            return redirect(url_for('login'))
+    return wrap
 
 
 @app.route('/analyzed_audios', methods=['GET', 'POST'])
@@ -204,20 +209,22 @@ def audio_upload():
 
 @celery.task
 def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
-    
-    with open(file, "r") as af:
-        print('Uploading file')
-        audio_url = upload_file(
-                    af.read(),
-                    file_name,
-                    content_type
-                    )
-    
-    #file_name = "DGRGRG10L21G273U14.flac"
-    transcription, offsets, confidence = long_audio("gs://registrazioni_lunhge/"+file_name)
-    with open("transcription.txt", "r") as ft, open("offsets.txt", "r") as fo:
-        offsets = json.load(fo)
-        transcription = ft.read().decode('utf-8')
+   
+    if DEBUG:
+        with open("transcription.txt", "r") as ft, open("offsets.txt", "r") as fo:
+            offsets = json.load(fo)
+            transcription = ft.read()
+    else:
+        with open(file, "rb") as af:
+            print('Uploading file')
+            audio_url = upload_file(
+                        af.read(),
+                        file_name,
+                        content_type
+                        )
+        
+        #file_name = "DGRGRG10L21G273U14.flac"
+        transcription, offsets, confidence = long_audio(f"gs://{BUCKET_NAME}/{file_name}")
     
     #print "Transcription:\n{}\n\nWord offsets:\n{}\n\nConfidence: {}".format(transcription, offsets, confidence)
 
@@ -229,8 +236,8 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
     nt_id = new_transcription.id
     db.session.commit()
 
-    difflist = diff_t(transcription, nclean(text_title.body.lower()))
-    wrong_t = get_extensions(difflist)
+    difflist  = diff_t(transcription, nclean(text_title.body.lower()))
+    wrong_t   = get_extensions(difflist)
     diff_orig = get_errors(difflist)
 
     difflist = [{'word': x[2:], 'ext': x[0]} for x in difflist]
@@ -238,6 +245,11 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
     for i in range(len(wrong_t)):
         if wrong_t[i]['word'][0] == ' ' or wrong_t[i]['word'][0] == '+':
             difflist[wrong_t[i]['pos']]['time'] = offsets[i]['start']
+
+    with open('difflist.txt', mode='w') as F:
+        json.dump(difflist, F)
+    with open('diff_orig.txt', mode='w') as F:
+        json.dump(diff_orig, F)
 
     tot = 0.
     flag = False
@@ -251,19 +263,22 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
                 if difflist[i]['ext']=='-':
                     if not flag:
                         j=i+1
-                        while j<range(len(difflist)):
+                        while j<len(difflist):
                             if difflist[j]['ext']!='-':
                                 if difflist[j]['ext']==' ':
                                     err_type = "Omissione"
                                 break
                             j+=1
 
-                        pos_err_word = diff_orig.index({'word': "- "+difflist[i]['word'], 'pos':i})
-                        id_err_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word).first()
-                        new_error = Errors(id_err_word.id+1, nt_id, difflist[i-1]['time'], False, err_type, False)
-                        db.session.add(new_error)
-                        db.session.commit()
-                        flag = True
+                        try:
+                            pos_err_word = diff_orig.index({'word': "- "+difflist[i]['word'], 'pos':i})
+                            id_err_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word).first()
+                            new_error = Errors(id_err_word.id+1, nt_id, difflist[i-1]['time'], False, err_type, False)
+                            db.session.add(new_error)
+                            db.session.commit()
+                            flag = True
+                        except Exception as e:
+                            print(f"Missing: {difflist[i]['word']}",e)
                 elif difflist[i]['ext']=='+':
                     if not flag:
                         j=i-1
@@ -273,41 +288,55 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
                                     err_type = "Ripetizione/Aggiunta"
                                 break
                             j-=1
-                        pos_err_word=diff_orig.index({'word': "  "+difflist[i-1]['word'], 'pos':i-1})
-                        id_err_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word).first()
-                        new_error = Errors(id_err_word.id+1, nt_id, difflist[i-1]['time'], False, err_type, False)
-                        db.session.add(new_error)
-                        db.session.commit()
-                        flag = True
+                        try:
+                            pos_err_word=diff_orig.index({'word': "  "+difflist[i-1]['word'], 'pos':i-1})
+                            id_err_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word).first()
+                            new_error = Errors(id_err_word.id+1, nt_id, difflist[i-1]['time'], False, err_type, False)
+                            db.session.add(new_error)
+                            db.session.commit()
+                            flag = True
+                        except Exception as e:
+                            print(f"Missing: {difflist[i]['word']}",e)
             else:
-                if flag: tot += difflist[i]['time']-difflist[i-1]['time']
-                pos_err_word = diff_orig.index({'word': "  "+difflist[i]['word'], 'pos':i})
-                id_right_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word+1).first()
-                new_pword = Spoken_words(id_right_word.id, nt_id, i, difflist[i]['time'])
-                db.session.add(new_pword)
-                db.session.commit()
-                flag = False
+                if flag: 
+                    tot += difflist[i]['time']-difflist[i-1]['time']
+                try:
+                    pos_err_word = diff_orig.index({'word': "  "+difflist[i]['word'], 'pos':i})
+                    id_right_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word+1).first()
+                    if id_right_word:
+                        new_pword = Spoken_words(id_right_word.id, nt_id, i, difflist[i]['time'])
+                        db.session.add(new_pword)
+                        db.session.commit()
+                    flag = False
+                except Exception as e:
+                    print(f"Missing: {difflist[i]['word']}",e)
 
 
         else:
             if difflist[i]['ext']!=' ':
                 difflist[i]['time'] = 0
                 if difflist[i]['ext']=='-':                        
-                    pos_err_word = diff_orig.index({'word': "- "+difflist[i]['word'], 'pos':i})
-                    id_err_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word).first()
-                    new_error = Errors(id_err_word.id+1, nt_id, 0)
-                    db.session.add(new_error)
-                    db.session.commit()
-                    flag = True
+                    try:
+                        pos_err_word = diff_orig.index({'word': "- "+difflist[i]['word'], 'pos':i})
+                        id_err_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word).first()
+                        new_error = Errors(id_err_word.id+1, nt_id, 0)
+                        db.session.add(new_error)
+                        db.session.commit()
+                        flag = True
+                    except Exception as e:
+                        print(f"Missing: {difflist[i]['word']}",e)
             else:
-                pos_err_word = diff_orig.index({'word': "  "+difflist[i]['word'], 'pos':i})
-                print pos_err_word
-                id_right_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word+1).first()
-                new_pword = Spoken_words(id_right_word.id, nt_id, i, difflist[i]['time'])
-                db.session.add(new_pword)
-                db.session.commit()
+                try:
+                    pos_err_word = diff_orig.index({'word': "  "+difflist[i]['word'], 'pos':i})
+                    print(pos_err_word)
+                    id_right_word = Text_words.query.filter_by(text=text_title.id, position=pos_err_word+1).first()
+                    new_pword = Spoken_words(id_right_word.id, nt_id, i, difflist[i]['time'])
+                    db.session.add(new_pword)
+                    db.session.commit()
+                except Exception as e:
+                    print(f"Missing: {difflist[i]['word']}",e)
 
-    print "Tempo di ascolto: {}, tempo totale: {}, percentuale: {}".format(tot, offsets[-1]['end'], tot/(offsets[-1]['end'])*100)
+    print("Tempo di ascolto: {}, tempo totale: {}, percentuale: {}".format(tot, offsets[-1]['end'], tot/(offsets[-1]['end'])*100))
         
 
 @app.route('/uploaded_texts', methods=["GET", "POST"])
@@ -333,7 +362,7 @@ def edit_text(id):
             text_upload_task.delay(text_info)
         else:
 
-            print request.form['mod_text']
+            print(request.form['mod_text'])
             Text_words.query.filter_by(text=id).delete()
             q = Working_texts.query.filter_by(id=id).first()
             text_info = (q.title, request.form['mod_text'], q.font, q.schoolyear, q.period)
@@ -354,9 +383,9 @@ def delete_text(id):
         q = Working_texts.query.filter_by(id=id).first()
         q.outdated = 1
         db.session.commit()
-        print "ciao"
+        print("ciao")
     else:
-        print"ciao"
+        print("ciao")
         Text_words.query.filter_by(text=id).delete()
         Working_texts.query.filter_by(id=id).delete()
         db.session.commit()
@@ -443,9 +472,9 @@ def text_upload_task(text_info):
 @app.route('/logout')
 @is_logged_in
 def logout():
-	session.clear()
-	flash('You are now logged out', 'success')
-	return redirect(url_for('home'))
+    session.clear()
+    flash('You are now logged out', 'success')
+    return redirect(url_for('home'))
 
 
 @app.route('/workbench_<string:id>')
@@ -503,9 +532,9 @@ def workbench(id):
 
     my_path = Path("static/audio_files/"+q.filename)
     if not my_path.is_file():
-        download_blob('registrazioni_lunhge', q.filename, "static/audio_files/"+q.filename)
+        download_blob(BUCKET_NAME, q.filename, "static/audio_files/"+q.filename)
 
-    return render_template('workbench.html', patient=patient, infos=text_info, transcription=q, prova=data, audio="static/audio_files/"+q.filename, rows=range(data[-1]['row']+1), )
+    return render_template('workbench.html', patient=patient, infos=text_info, transcription=q, prova=data, audio="static/audio_files/"+q.filename, rows=list(range(data[-1]['row']+1)), )
 
 
 #//////////pagina in costruzione
@@ -549,14 +578,14 @@ def errors_submission():
 
         db.session.commit()
 
-        print err.checked
+        print(err.checked)
         return jsonify(result="Query OK")
 
 
 @app.route('/remove_error', methods=["GET", "POST"])
 def remove_error():
     if request.method == "POST":
-        print request.form['w_id']
+        print(request.form['w_id'])
         Errors.query.filter_by(word=request.form['w_id'], transcription=request.form['trans']).delete()
         db.session.commit()
         return jsonify(result="Query OK")
@@ -569,24 +598,24 @@ def remove_error():
 
 #////////////WTF-forms classes (form di sottomissione, es. login)
 def available_username(form, field):
-	result = Supervisors.query.filter_by(username=field.data).first()
-	if result:
-		raise validators.ValidationError('Username already in use.\n Please choose another')
+    result = Supervisors.query.filter_by(username=field.data).first()
+    if result:
+        raise validators.ValidationError('Username already in use.\n Please choose another')
 
 
 class RegisterForm(Form):
-	id = StringField('id', [validators.Length(min=1, max=50)])
-	username = StringField('Username', [
+    id = StringField('id', [validators.Length(min=1, max=50)])
+    username = StringField('Username', [
         validators.Length(min=4, max=25),
         available_username,
         validators.DataRequired()
     ])
-	email = StringField('Email', [validators.Length(min=6, max=50)])
-	password = PasswordField('Password', [
-		validators.DataRequired(),
-		validators.EqualTo('confirm', message='Passwords do not match')
-	])
-	confirm = PasswordField('Confirm Password')
+    email = StringField('Email', [validators.Length(min=6, max=50)])
+    password = PasswordField('Password', [
+        validators.DataRequired(),
+        validators.EqualTo('confirm', message='Passwords do not match')
+    ])
+    confirm = PasswordField('Confirm Password')
 
 
 
@@ -608,10 +637,10 @@ class Supervisors(db.Model):
     password = db.Column('password', db.Unicode)
 
     def __init__(self, name, e_mail, username, password):
-		self.name = name
-		self.e_mail = e_mail
-		self.username = username
-		self.password = password
+        self.name = name
+        self.e_mail = e_mail
+        self.username = username
+        self.password = password
 
 
 class Patients(db.Model):
