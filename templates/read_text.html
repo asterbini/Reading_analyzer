@@ -1,11 +1,132 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+  <style>
+    .highlighted{
+      color: white;
+      background-color: red;
+    }
+    #change{
+      font-size: 20px;
+    }
+  </style>
   <h2> {{text.title}}
   	<small>Added on {{text.update_date}}</small>
   </h2>
   <hr>
-  <article style="white-space: pre;">
-    {{text.body}}
+  <button type="submit" onclick="record_audio()">Start Recording</button>
+  <button type="submit" onclick="record_audio_stop()">Stop Recording</button>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+  <script type="text/javascript">
+    var start = new Date().getTime();
+    var rec = false;
+    function record_audio() {
+      $.ajax({
+        url: '/record_audio'
+      })
+      rec = true;
+      start = new Date().getTime();
+    }
+    function record_audio_stop() {
+      $.ajax({
+        url: '/record_audio_stop'
+      })
+      rec = false;
+      $.ajax({
+        type: "POST",
+        url: '/audio_record_upload'
+      })
+    }
+    var index = 0;
+    var elapsed = 0.000;
+    var old_elapsed = 0.000;
+    var s = true;
+    $(document).keydown(function(e) {
+      switch(e.which) {
+        case 37:
+            index--;
+            if (index == -1) { index = $('#change word').length - 1;} 
+            $('word').removeClass('highlighted');
+            $($('word')[index]).addClass('highlighted');
+            if (rec == true) {
+                var finish = e.timeStamp;
+                elapsed = old_elapsed + (finish - start) / 1000;
+                var word = $('word')[index + 1].innerText.slice(0, -1);
+                if (s == true) {
+                    start = 0;
+                    s = false;
+                }
+                $.ajax({
+                    url: '/add_word/' + index + '/' + word + '/' + old_elapsed + '/' + elapsed,
+                    data: { index: index,
+                            word: word,
+                            start: old_elapsed,
+                            finish: elapsed
+                        }
+                })
+                start = finish;
+                old_elapsed = elapsed;
+            }
+            break;
+        case 39:
+            index++;
+            if (index == $('#change word').length) { index = 0; }
+            $('word').removeClass('highlighted');
+            $($('word')[index]).addClass('highlighted');
+            if (rec == true) {
+                var finish = e.timeStamp;
+                elapsed = old_elapsed + (finish - start) / 1000;
+                var word = $('word')[index - 1].innerText;
+                //var word = $('word')[index - 1].innerText.slice(0, -1);
+                if (s == true) {
+                    start = 0;
+                    s = false;
+                }
+                $.ajax({
+                    url: '/add_word/' + index + '/' + word + '/' + old_elapsed + '/' + elapsed,
+                    data: { index: index,
+                            word: word,
+                            start: old_elapsed,
+                            finish: elapsed
+                        }
+                })
+                start = finish;
+                old_elapsed = elapsed;
+            }
+            break;
+        default:
+            return;            
+      }
+      e.preventDefault();
+    })
+  </script>
+  <select name="size" id="size">
+    <option value="12px">12</option>
+    <option value="14px">14</option>
+    <option value="16px">16</option>
+    <option value="18px">18</option>
+    <option value="20px">20</option>
+    <option value="22px">22</option>
+    <option value="24px">24</option>
+    <option value="26px">26</option>
+    <option value="28px">28</option>
+    <option value="30px">30</option>
+  </select>
+  <article id="change" style="white-space: normal;">
+    {% for l in text.body.splitlines() %}
+      {% for w in l.split() %}
+        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word class="highlighted">{{w}}</word>{% endif %}
+        {% else %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+        {% endif %}
+      {% endfor %}
+      <br>
+    {% endfor %}
   </article>
+  <script>
+    var change = document.getElementById('change');
+    document.getElementById('size').addEventListener('change', 
+    function(){
+      change.style.fontSize = this.value;
+    });
+  </script>
 {% endblock %}

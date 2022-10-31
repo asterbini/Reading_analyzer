@@ -310,6 +310,12 @@
       });
 
       function setFontDim(word){
+        for (i=1; i < document.getElementById("errorList").length; i++) {
+          document.getElementById("errorList").remove(i)
+        }
+        if ($(".selected").attr("err_type") != "") {
+          document.getElementById("errorList").remove(1)
+        }
         $(".selected").removeClass("selected")
         $(word).addClass("selected");
       }
@@ -320,9 +326,9 @@
         $('input[name="error_weight"]').attr('checked', false)
         $('#err_autocorrezione').attr('checked', false)
         var id_w = $(word).attr('id');
-
+        
         create_prob_words_list(word);
-
+        
         $(".lista-errori")
         .attr("data", id_w)
         .css({
@@ -341,8 +347,16 @@
         $(word).children().each(function(){
           var prob = $(this).attr('prob')
           var word = $(this).attr('word')
-          $('#errorList')
-          .append($("<option class='error' value='"+word+"'> - "+word+" ("+prob+")</option>"))
+          var add = 1
+          for (i=1; i < document.getElementById("errorList").length; ++i) {
+            if (document.getElementById("errorList").options[i].value == $(this).attr('word')) {
+              add = 0
+            }
+          }
+          if (add == 1) {
+            $('#errorList')
+            .append($("<option class='error' value='"+word+"'> - "+word+" ("+prob+")</option>"))
+          }
         })
         $('#errorList')
       }

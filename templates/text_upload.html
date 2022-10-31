@@ -2,6 +2,16 @@
 
 {% block body%}
 
+  <style type="text/css">
+  
+    .info-container > dictation {
+      width: 35%;
+      position: fixed;
+      background-color : rgb(255, 255, 255);
+    }
+    
+  </style>
+
   <form method="POST" enctype="multipart/form-data">
 
     <div class="form-group">
@@ -15,6 +25,7 @@
       <input type="radio" name="period" value="Inizio">Inizio</input>
       <input type="radio" name="period" value="Fine">Fine</input>
     </div>
+    
       
     <div class="form-group"> 
       <label for="class">Classe:</label>
@@ -38,6 +49,29 @@
         <option value="Verdana">Verdana</option>
       </select>
     </div>
+    
+    <div class="form-group">
+      <label for="dictation">Dettatura:</label>
+      <input type="radio" name="dictation" value="1">Sì</input>
+      <input type="radio" name="dictation" value="0">No</input>
+      
+      <select name="changeselection" id="changeselection" class="select picker form-group">
+        <option selected="selected">Seleziona un testo</option>
+          <option id="1.3gp.flac" value="Prova1.flac">Prova1.flac</option>
+          <option id="2.3gp.flac" value="Prova2.flac">Prova2.flac</option>
+          <!---
+          <option id="3.3gp.flac" value="Prova3.flac">Prova3.flac</option>
+          --->
+      </select>
+      
+      <div class="info-container column">
+        <audio controls id="audiofile" style="width: 50%; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
+          <source id="audiochange" src="../static/audio_files/dictation_files/Prova1.flac" type="audio/flac">
+          Your browser does not support the audio element
+        </audio>
+
+      </div>
+    </div>
 
     <div class="form-group" id="container">
       <label for="input_text">Testo<small><i>(deve essere lungo almeno 30 caratteri)</i></small>:</label>
@@ -52,7 +86,95 @@
       <p><button type="submit" class="btn btn-success btn right" id="sub_but">Sottometti</button></p>
     </div>
   </form>
-
+  <script>
+    var start = new Date().getTime();
+    var rec = false;
+    let time = "";
+    var audio = document.getElementById("audiofile");
+    audio.addEventListener("play", function() {
+      rec = true;
+      start = new Date().getTime();
+    });
+    audio.addEventListener("pause", function() {
+      rec = false;
+    });
+    var last = "";
+    var last_alt_ctrl = false;
+    var count = 0;
+    var index = 0;
+    var elapsed = 0.000;
+    var old_elapsed = 0.000;
+    var s = true;
+    $(input_text).keydown(function(e) {
+    if (e.which == 9  //tab
+    || e.which == 13  //enter
+    || e.which == 32  //space
+    || e.which == 171 //sum
+    || e.which == 188 //comma
+    || e.which == 173 //dash
+    || e.which == 190 //period
+    || e.which == 222 //quote
+    || e.which == 220 //backslash
+    || (e.shiftKey && ((e.which >= 48 && e.which <= 57) //''£$%&/()=
+        || (e.which == 160 || e.which == 171
+        || e.which == 173 || e.which == 188
+        || e.which == 190 || e.which == 220
+        || e.which == 222)  
+        ))
+    || (e.altKey && (e.which == 59 
+        || e.which == 171 
+        || e.which == 220
+        || e.which == 222 
+        ))
+    ) {
+        if (rec == true) {
+          var audio = document.getElementById("audiofile");
+          var finish = audio.currentTime;
+          if (s == true) {
+              start = 0;
+              s = false;
+          }
+          if ((last >= 48 && last <= 57) ||
+          (last >= 65 && last <= 90)
+          ) {
+            $.ajax({
+              url: '/add_time/' + finish,
+              data: { time: finish }
+            })
+          }
+          time += elapsed;
+          start = finish;
+          old_elapsed = elapsed;
+          last = e.which;
+        }
+        
+      }
+    else {
+      last = e.which;
+    }
+    $(input_text).innerText.append(e.which);
+    e.preventDefault();
+    })
+  </script>
+  <script>
+    $(document).ready(function() {
+        $("#changeselection").on("change",function() {
+            if($(this).val() == "Prova1.flac") {
+                var src = "../static/audio_files/dictation_files/Prova1.flac";
+            }
+            else if($(this).val() == "Prova2.flac") {
+                var src = "../static/audio_files/dictation_files/Prova2.flac";
+            }
+            //else if($(this).val() == "Prova3.flac") {
+            //    var src = "../static/audio_files/dictation_files/Prova3.flac";
+            //}
+            audio = $("#audiofile");
+            $("#audiofile").attr("src", src);
+            audio[0].pause();
+            audio[0].load();
+        })
+    })
+  </script>
   <!--
   <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script><script type="text/javascript">
     bkLib.onDomLoaded(function() { new nicEditor({buttonList : []}).panelInstance('input_text') });

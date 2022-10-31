@@ -19,6 +19,7 @@ def short_audio(audio, context=[]):
     audio = types.RecognitionAudio(content=content)
     config = types.RecognitionConfig(
         encoding=types.RecognitionConfig.AudioEncoding.FLAC,
+        audio_channel_count=2,
         language_code='it-IT',
         enable_word_time_offsets=True)
 
@@ -48,6 +49,7 @@ def long_audio(audio_url, phrases=[]):
     audio = types.RecognitionAudio(uri=audio_url)
     config = types.RecognitionConfig(
              encoding=types.RecognitionConfig.AudioEncoding.FLAC,
+             audio_channel_count=2,
              language_code='it-IT',
              enable_word_time_offsets=True,
              speech_contexts=[speech.types.SpeechContext(
@@ -127,7 +129,7 @@ import sys
 def main1():
     file = open(sys.argv[1])
     audio_url = upload_file(file.read(), 'T5246', 'audio/flac')
-    trascnript, confidence = long_audio(audio_url)
+    transcript, confidence = long_audio(audio_url)
     print('Transcript:\n {}\n\n Confidence: {}'.format(transcript, confidence))
 
 
