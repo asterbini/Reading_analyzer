@@ -5539,7 +5539,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `register_date`) VALUES
-(1, 'andrea', 'sterbini@di.uniroma1.it', 'andrea', '$5$rounds=535000$IIHnxJ5x/DxpKQKO$BLN45uXD3RXv6T8lTBk2aCPTcKbYzTvazX6mlRci14B', '2022-08-25 15:38:08');
+(1, 'andrea', 'sterbini@di.uniroma1.it', 'andrea', '$5$rounds=535000$IIHnxJ5x/DxpKQKO$BLN45uXD3RXv6T8lTBk2aCPTcKbYzTvazX6mlRci14B', '2022-08-25 15:38:08'),
+(2, '1883259', 'gervasio.1883259@studenti.uniroma1.it', '1883259', '$5$rounds=535000$QrqwqMbtGJGt75EN$ZfkiWvrmRhiUrmjTDcbAceWqB47e8a7k3MQMlSPR.C.', '2022-10-31 14:04:54');
 
 -- --------------------------------------------------------
 
@@ -9490,7 +9491,7 @@ ALTER TABLE `transcriptions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `words`
