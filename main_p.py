@@ -539,7 +539,7 @@ def add_time(time):
 def text_upload():
     from pathlib2 import Path
     error=''
-    classes = ["3a elementare", "4a elementare", "5a elementare", "1a media", "2a media", "3a media"]
+    classes = ["3a elementare", "4a elementare", "5a elementare", "1a media", "2a media", "3a media", "Adulti"]
     if request.method == "POST":
         text_title = request.form['text_title']
         text_body = request.form['textarea']

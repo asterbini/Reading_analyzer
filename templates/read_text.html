@@ -2,6 +2,10 @@
 
 {% block body %}
   <style>
+    .tab{
+      display: inline-block;
+      margin-left: 40px;
+    }
     .highlighted{
       color: white;
       background-color: red;
@@ -112,11 +116,23 @@
     <option value="28px">28</option>
     <option value="30px">30</option>
   </select>
+  <!---
   <article id="change" style="white-space: normal;">
     {% for l in text.body.splitlines() %}
       {% for w in l.split() %}
-        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word class="highlighted">{{w}}</word>{% endif %}
+        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<span class="tab"></span><word class="highlighted">{{w}}</word>{% endif %}
         {% else %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+        {% endif %}
+      {% endfor %}
+      <br>
+    {% endfor %}
+  </article>
+  --->
+  <article id="change" style="white-space: normal;">
+    {% for l in text.body.splitlines() %}
+      {% for w in l.split() %}
+        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}{% if text.schoolyear == "Adulti" %}<span class="tab"></span>{% endif %}<word class="highlighted">{{w}}</word>{% endif %}
+        {% else %}{% if text.schoolyear == "Adulti" and w == l.split()[0] and text.body.splitlines()[text.body.splitlines().index(l)-1][-1][-1] == "." %}<span class="tab"></span>{% endif %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
         {% endif %}
       {% endfor %}
       <br>
