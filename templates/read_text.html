@@ -7,8 +7,10 @@
       margin-left: 40px;
     }
     .highlighted{
-      color: white;
       background-color: red;
+    }
+    .high{
+      background-color: yellow;
     }
     #change{
       font-size: 20px;
@@ -52,6 +54,8 @@
             if (index == -1) { index = $('#change word').length - 1;} 
             $('word').removeClass('highlighted');
             $($('word')[index]).addClass('highlighted');
+            //if (document.getElementById('evidenziazione').value == "Attivata")
+            //  $($('word')[index+1]).addClass('high');
             if (rec == true) {
                 var finish = e.timeStamp;
                 elapsed = old_elapsed + (finish - start) / 1000;
@@ -116,6 +120,41 @@
     <option value="28px">28</option>
     <option value="30px">30</option>
   </select>
+<<<<<<< Updated upstream
+=======
+  
+  <!---
+  <br>
+  <br>
+  
+  <button onclick="activate()">Attiva evidenziazione</button>
+  <button onclick="disactivate()">Disattiva evidenziazione</button>
+  <script>
+    function activate() {
+      document.getElementById('change').style.backgroundColor = "blue";
+    }
+    
+    function disactivate() {
+      document.getElementById('change').style.backgroundColor = "yellow";
+    
+    }
+  </script>
+  
+  <br>
+  <br>
+  --->
+  <br>
+  <br>
+  
+  <label for="evidenziazione">Evidenziazione:</label>
+  <div class="form-group">
+    <select name="evidenziazione" id="evidenziazione" class="select picker form-group">
+      <option selected="selected">Disattivata</option>
+      <option value="Attivata">Attivata</option>
+    </select>
+  </div>
+  
+>>>>>>> Stashed changes
   <!---
   <article id="change" style="white-space: normal;">
     {% for l in text.body.splitlines() %}
@@ -129,20 +168,56 @@
   </article>
   --->
   <article id="change" style="white-space: normal;">
+<<<<<<< Updated upstream
     {% for l in text.body.splitlines() %}
       {% for w in l.split() %}
         {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}{% if text.schoolyear == "Adulti" %}<span class="tab"></span>{% endif %}<word class="highlighted">{{w}}</word>{% endif %}
         {% else %}{% if text.schoolyear == "Adulti" and w == l.split()[0] and text.body.splitlines()[text.body.splitlines().index(l)-1][-1][-1] == "." %}<span class="tab"></span>{% endif %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+=======
+    {% if text.t == "Testo" %}
+    {% for l in text.body.splitlines() %}
+      {% for w in l.split() %}
+        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}{% if text.schoolyear == "Adulti" %}<span class="tab"></span>{% endif %}<word id="word">{{w}}</word>{% endif %}
+        {% else %}{% if text.schoolyear == "Adulti" and w == l.split()[0] and text.body.splitlines()[text.body.splitlines().index(l)-1][-1][-1] == "." %}<span class="tab"></span>{% endif %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word id="word">{{w}}</word>{% endif %}
+>>>>>>> Stashed changes
         {% endif %}
       {% endfor %}
       <br>
     {% endfor %}
+<<<<<<< Updated upstream
+=======
+    {% else %}
+      <center>
+      {% for l in text.body.splitlines() %}
+        {% for w in l.split() %}
+          {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word class="highlighted">{{w}}</word>{% endif %}
+          {% else %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+          {% endif %}
+        {% endfor %}
+        <br>
+      {% endfor %}
+      </center>
+    {% endif %}
+>>>>>>> Stashed changes
   </article>
   <script>
     var change = document.getElementById('change');
     document.getElementById('size').addEventListener('change', 
     function(){
       change.style.fontSize = this.value;
+    });
+    var word = document.querySelectorAll('.highlighted');
+    //alert(word[0].innerText);
+    document.getElementById('evidenziazione').addEventListener('change', 
+    function(){
+      var word = document.querySelectorAll('.highlighted');
+      if (this.value == "Attivata") 
+        //word[0].style.backgroundColor = "yellow";
+        word[0].classList.add('highlighted');
+        //$('.highlighted').css("background-color", "yellow");
+      else
+        word[0].classList.remove('highlighted');
+        //word[0].style.backgroundColor = "transparent";
     });
   </script>
 {% endblock %}

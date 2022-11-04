@@ -4011,7 +4011,160 @@ INSERT INTO `sim_words` (`id`, `word1`, `word2`, `ratio`) VALUES
 (3954, 5358, 5359, 0.916), 
 (3955, 5358, 5360, 0.869), 
 (3956, 5358, 5361, 0.928), 
+<<<<<<< Updated upstream
 (3957, 5358, 5362, 0.88);
+=======
+(3957, 5358, 5362, 0.88),
+(3958, 5363, 5364, 0.857),
+(3959, 5366, 5367, 0.9),
+(3960, 5366, 5368, 0.9),
+(3961, 5366, 5369, 0.857),
+(3962, 5366, 5370, 0.909),
+(3963, 5366, 5371, 0.857),
+(3964, 5366, 5372, 0.952),
+(3965, 5373, 5374, 0.9),
+(3966, 5373, 5375, 0.9),
+(3967, 5376, 5377, 0.9),
+(3968, 5376, 5378, 0.857),
+(3969, 5376, 5379, 0.9),
+(3970, 5376, 5380, 0.869),
+(3971, 5376, 5381, 0.956),
+(3972, 5376, 5382, 0.857),
+(3973, 5376, 5383, 0.909),
+(3974, 5384, 5385, 0.909),
+(3975, 5384, 5386, 0.88),
+(3976, 5384, 5387, 0.916),
+(3977, 5384, 5388, 0.857),
+(3978, 5389, 5390, 0.88),
+(3979, 5391, 5392, 0.869),
+(3980, 5391, 5393, 0.916),
+(3981, 5391, 5394, 0.916),
+(3982, 5391, 5395, 0.916),
+(3983, 5396, 5397, 0.857),
+(3984, 5396, 5398, 0.857),
+(3985, 5399, 5400, 0.857),
+(3986, 5401, 5402, 0.923),
+(3987, 5401, 5403, 0.928),
+(3988, 5401, 5404, 0.888),
+(3989, 5405, 5406, 0.888),
+(3990, 5405, 5407, 0.888),
+(3991, 5408, 5409, 0.916),
+(3992, 5408, 5309, 0.923),
+(3993, 5410, 5411, 0.88),
+(3994, 5410, 5412, 0.857),
+(3995, 5413, 5414, 0.928),
+(3996, 5413, 5415, 0.928),
+(3997, 5413, 5416, 0.857),
+(3998, 5413, 5417, 0.866),
+(3999, 5413, 5418, 0.857),
+(4000, 5413, 5419, 0.857),
+(4001, 5422, 5423, 0.888),
+(4002, 5422, 5424, 0.888),
+(4003, 5422, 5425, 0.928),
+(4004, 5427, 5428, 0.875),
+(4005, 5429, 5430, 0.9),
+(4006, 5429, 5431, 0.947),
+(4007, 5429, 5432, 0.909),
+(4008, 5429, 5433, 0.909),
+(4009, 5429, 5434, 0.857),
+(4010, 5429, 5435, 0.9),
+(4011, 5429, 5436, 0.9),
+(4012, 5429, 5437, 0.869),
+(4013, 5429, 5438, 0.869),
+(4014, 5429, 5439, 0.869),
+(4015, 5429, 5440, 0.869),
+(4016, 5441, 5442, 0.9),
+(4017, 5443, 5444, 0.857),
+(4018, 5443, 5445, 0.909),
+(4019, 5443, 5446, 0.9),
+(4020, 5443, 5447, 0.869),
+(4021, 5443, 5448, 0.916),
+(4022, 5449, 5450, 0.869),
+(4023, 5449, 5451, 0.9),
+(4024, 5449, 5452, 0.909),
+(4025, 5449, 5453, 0.857),
+(4026, 5454, 5455, 0.916),
+(4027, 5456, 5457, 0.916),
+(4028, 5459, 5460, 0.923),
+(4029, 5461, 5462, 0.888),
+(4030, 5463, 5464, 0.916),
+(4031, 5463, 5465, 0.869),
+(4032, 5463, 5466, 0.928),
+(4033, 5463, 5467, 0.928),
+(4034, 5468, 5469, 0.923),
+(4035, 5470, 5471, 0.869),
+(4036, 5472, 5473, 0.869),
+(4037, 5472, 5474, 0.88),
+(4038, 5475, 5476, 0.916),
+(4039, 5477, 5478, 0.857),
+(4040, 5477, 5479, 0.888),
+(4041, 5477, 5480, 0.928),
+(4042, 5477, 5481, 0.888),
+(4043, 5477, 5482, 0.857),
+(4044, 5477, 5483, 0.857),
+(4045, 5477, 5484, 0.857),
+(4046, 5485, 5486, 0.933),
+(4047, 5487, 4393, 0.88),
+(4048, 5487, 5488, 0.88),
+(4049, 5489, 5490, 0.875),
+(4050, 5491, 5492, 0.9),
+(4051, 5491, 5493, 0.888),
+(4052, 5491, 5494, 0.875),
+(4053, 5491, 5495, 0.875),
+(4054, 5491, 5496, 0.888),
+(4055, 5497, 5498, 0.888),
+(4056, 5499, 5500, 0.888),
+(4057, 5499, 5501, 0.888),
+(4058, 5499, 5502, 0.888),
+(4059, 5503, 5504, 0.941),
+(4060, 5503, 5505, 0.888),
+(4061, 5507, 5508, 0.888),
+(4062, 5509, 5510, 0.9),
+(4063, 5509, 5511, 0.857),
+(4064, 5512, 5513, 0.888),
+(4065, 5512, 5514, 0.857),
+(4066, 5512, 5515, 0.857),
+(4067, 5516, 5517, 0.9),
+(4068, 5518, 5519, 0.857),
+(4069, 5518, 5520, 0.9),
+(4070, 5518, 5521, 0.9),
+(4071, 5518, 5522, 0.9),
+(4072, 5518, 5523, 0.909),
+(4073, 5518, 5524, 0.909),
+(4074, 5518, 5525, 0.888),
+(4075, 5527, 5528, 0.857),
+(4076, 5527, 5529, 0.857),
+(4077, 5527, 5530, 0.857),
+(4078, 5527, 5531, 0.857),
+(4079, 5527, 5532, 0.909),
+(4080, 5527, 5533, 0.956),
+(4081, 5534, 5535, 0.928),
+(4082, 5534, 5536, 0.923),
+(4083, 5537, 5538, 0.916),
+(4084, 5539, 5540, 0.888),
+(4085, 5539, 5541, 0.857),
+(4086, 5543, 5544, 0.928),
+(4087, 5543, 5545, 0.857),
+(4088, 5543, 5546, 0.857),
+(4089, 5543, 5547, 0.857),
+(4090, 5548, 5549, 0.937),
+(4091, 5550, 5418, 0.896),
+(4092, 5551, 5552, 0.857),
+(4093, 5551, 5553, 0.923),
+(4094, 5551, 5554, 0.857),
+(4095, 5551, 5555, 0.857),
+(4096, 5551, 5556, 0.857),
+(4097, 5559, 5560, 0.857),
+(4098, 5563, 5564, 0.857),
+(4099, 5579, 5580, 0.857),
+(4100, 5581, 5582, 0.857),
+(4101, 5581, 5583, 0.923),
+(4102, 5589, 5590, 0.857),
+(4103, 5591, 5592, 0.933),
+(4104, 5591, 5593, 0.857),
+(4105, 5591, 5594, 0.857),
+(4106, 5595, 5596, 0.9);
+>>>>>>> Stashed changes
 
 
 
@@ -4101,13 +4254,15 @@ CREATE TABLE `texts` (
   `period` varchar(20) DEFAULT NULL,
   `outdated` tinyint(1) DEFAULT NULL,
   `dictation` tinyint(1) DEFAULT NULL,
-  `filename` varchar(50) DEFAULT NULL
+  `filename` varchar(50) DEFAULT NULL,
+  `type` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `texts`
 --
 
+<<<<<<< Updated upstream
 INSERT INTO `texts` (`id`, `title`, `font`, `body`, `update_date`, `class`, `period`, `outdated`, `dictation`, `filename`) VALUES
 (15, 'La volpe e il boscaiolo', 'Arial', '                Una volpe, che fuggiva davanti ai cacciatori, giunse alla capanna di un taglialegna.\r\n                - Per pietà, nascondimi - chiese al taglialegna.\r\n                - Entra nella mia capanna - disse l\'uomo. - Appiattati in quel cantuccio.\r\n                Pochi istanti dopo arrivarono i cacciatori. Domandarono al taglialegna:\r\n                - Hai visto passare di qui una volpe?\r\n                - No - disse il boscaiolo - non ho visto passare di qui nessuna volpe.\r\n                E intanto con la mano faceva segno che si, la volpe l\'aveva vista e che anzi era lì, in quel cantuccio della capanna.\r\n                Ma i cacciatori badarono solo alle parole e non ai gesti, e si allontanarono a grandi passi.\r\n                La volpe li lasciò andare, poi uscì anch\'essa e si avviò, dalla parte opposta. L\'uomo fece l\'offeso:\r\n                - Come? Ti ho salvato e tu ne vai senza nemmeno ringraziare?\r\n                - Ti ringrazierei - rispose la volpe - e di cuore, se i tuoi gesti andassero d\'accordo con le tue parole.\r\n                E tirò via.\r\n', '2022-08-25 16:37:02', '2a', 'Inizio', 0, 0, NULL),
 (16, 'Alì salva la luna', 'Arial', '                Una volta verso sera, Alì andò a prendere acqua. Curvandosi sul pozzo, vide laggiù in fondo, nell\'acqua, la luna che si specchiava.\r\n                - Poveri noi - gridò Alì - la luna è caduta nel pozzo. Presto, presto, tiriamola fuori.\r\n                E corse a prendere corda e uncino.\r\n                Il bravo Alì si diede da fare per un bel pezzo, ma l\'uncino non riusciva ad acchiappare la luna per tirarla su. Alla fine Alì ebbe l\'impressione che l\'uncino avesse fatto presa e cominciò a tirare.\r\n                - Acciderba, se pesa ... - sospirava. E tirava con tutte le sue forze, puntando i piedi contro il parapetto del pozzo. A un tratto l\'uncino si staccò. Alì cadde sulla schiena, guardò in alto e vide la luna in mezzo al cielo.\r\n                - Dio sia lodato - esclamò Alì soddisfatto - mi sarò fatto qualche bernoccolo ma la luna è tornata al suo posto.\r\n', '2022-08-26 20:57:06', '2a', 'Inizio', 0, 0, NULL),
@@ -4124,6 +4279,124 @@ INSERT INTO `texts` (`id`, `title`, `font`, `body`, `update_date`, `class`, `per
 (27, 'I topi campanari', 'Arial', '                C\'era una volta un vecchio campanile abbandonato, e nel vecchio campanile c\'erano molti topi.\r\n                Un giorno, dall\'alto, videro il campanaro che tirava una lunga fune e sentirono suonare la campana.\r\n                A certi topi la cosa sembrò molto bella. Quando il campanaro andò via, essi proposero agli altri di provare anche loro a suonare la campana.\r\n                - Si, si, suoniamo la campana! Diventeremo famosi tutti ci ammireranno! - dissero gli altri, e si attaccarono tutti alla fune.\r\n                La fune dondolava in qua e in là, ma la campana non suonava. I topi raddoppiarono i loro sforzi, e non si accorsero che il campanaro era tornato e stava anche lui tirando la fune.\r\n                La campana si mise a suonare.\r\n                Quando il campanaro se ne andò di nuovo e il suono cessò, i topi abbandonarono la corda e si abbracciarono felici tra loro.\r\n                - È stata una grande fatica, - dissero - ma ci siamo riusciti!\r\n                E si sparsero ai quattro venti per raccontare a tutti la loro impresa.\r\n', '2022-08-27 06:58:58', '2a', 'Fine', 0, 0, NULL),
 (28, 'La percezione del tempo', 'Arial', 'Il tempo, con le sue peculiari caratteristiche, è stato da sempre oggetto di studio di filosofi e scienziati\r\nche con le loro analisi hanno provato a comprenderne la natura e concettualizzarlo con maggiore chiarezza;\r\ntuttavia sembra che la sua essenza astratta e intagibile non consenta di giungere ad una descrizione univoca.\r\n\tL\'esistenza del tempo con il suo scorrere inesorabile appare palese, pertanto da sempre l\'umanità ha \r\ntentato di misurarlo e nel corso dei secoli si è prodigata, con l\'avanzare delle tecnologie, nella creazione 
 di meccanismi sempre più sofisticati e precisi. Si è passati dall\'osservazione e misurazione dei movimenti \r\ndel sole attraverso i cambiamenti che questo produce sulle proiezioni delle ombre di gnomoni fissi, come \r\ngli obelischi di grandi dimensioni, alle proiezioni di fasci di luce attraverso fori, per indicare lo scorrere \r\ndel tempo su scale graduate: le meridiane. Successivamente, per non dipendere esclusivamente dal sole, si \r\nsono diffuse le clessidre fino ad arrivare poi ai medievali orologi meccanici e agli attuali cronometri legati \r\nall\'instabilità di cristalli di quarzo o ai precisissimi sistemi basati sulle oscillazioni degli elettroni del cesio.\r\n	\tMa probabilmente i tentativi di misurazione servono anche per ovviare agli inevitabili errori di \r\nvalutazione soggettiva a cui tutti possiamo andare incontro nella vita quotidiana. È esperienza comune \r\nquella di percepire il tempo in modo molto variabile; le stime di durata di un determinato evento, fatte da \r\nosservatori diversi, possono risultare molto differenti tra loro, così come lo stesso soggetto in situazioni \r\ndiverse può avere percezioni distorte dello scorrere del tempo e fornire stime discordanti rispetto alle \r\neffettive durate misurate da orologi e cronometri.\r\n	\tIl concetto di soggettività sembra sovrapponibile a quello descritto dalla teoria della relatività dove \r\nla misurazione oggettiva del tempo è influenzata da variazioni di forze fisiche, tra cui la velocità, per \r\ncui soggetti diversi vivrebbero dimensioni temporali distinte a seconda delle forze in cui sono immersi:\r\n relatività appunto. Con la conseguenza del paradosso dei gemelli che inizialmente appartenenti allo stesso \r\nsistema di forze, inseriti in sistemi dinamici con proprietà distinte, si ritroverebbero a subire cambiamenti \r\ntemporali molto diversi per ritrovarsi a rallentare o accellerare la loro rispettiva crescita cronologica pur \r\nessendo partiti dallo stesso punto cronobiologico.\r\n	\tLa soggettività introduce anche la possibilità che il tempo sia frutto di una percezione illusoria, di \r\nuna dimensione inesistente, creata dalla mente e necessaria per organizzare gli eventi. Questo complica \r\nulteriormente il discorso, la cui analisi richiederebbe molto più tempo...\r\n', '2022-11-01 15:22:32', 'Adulti', 'Fine', 0, 0, NULL);
+=======
+INSERT INTO `texts` (`id`, `title`, `font`, `body`, `update_date`, `class`, `period`, `outdated`, `dictation`, `filename`, `type`) VALUES
+(15, 'La volpe e il boscaiolo', 'Arial', '                Una volpe, che fuggiva davanti ai cacciatori, giunse alla capanna di un taglialegna.\r\n                - Per pietà, nascondimi - chiese al taglialegna.\r\n                - Entra nella mia capanna - disse l\'uomo. - Appiattati in quel cantuccio.\r\n                Pochi istanti dopo arrivarono i cacciatori. Domandarono al taglialegna:\r\n                - Hai visto passare di qui una volpe?\r\n                - No - disse il boscaiolo - non ho visto passare di qui nessuna volpe.\r\n                E intanto con la mano faceva segno che si, la volpe l\'aveva vista e che anzi era lì, in quel cantuccio della capanna.\r\n                Ma i cacciatori badarono solo alle parole e non ai gesti, e si allontanarono a grandi passi.\r\n                La volpe li lasciò andare, poi uscì anch\'essa e si avviò, dalla parte opposta. L\'uomo fece l\'offeso:\r\n                - Come? Ti ho salvato e tu ne vai senza nemmeno ringraziare?\r\n                - Ti ringrazierei - rispose la volpe - e di cuore, se i tuoi gesti andassero d\'accordo con le tue parole.\r\n                E tirò via.\r\n', '2022-08-25 16:37:02', '2a', 'Inizio', 0, 0, NULL, 'Testo'),
+(16, 'Alì salva la luna', 'Arial', '                Una volta verso sera, Alì andò a prendere acqua. Curvandosi sul pozzo, vide laggiù in fondo, nell\'acqua, la luna che si specchiava.\r\n                - Poveri noi - gridò Alì - la luna è caduta nel pozzo. Presto, presto, tiriamola fuori.\r\n                E corse a prendere corda e uncino.\r\n                Il bravo Alì si diede da fare per un bel pezzo, ma l\'uncino non riusciva ad acchiappare la luna per tirarla su. Alla fine Alì ebbe l\'impressione che l\'uncino avesse fatto presa e cominciò a tirare.\r\n                - Acciderba, se pesa ... - sospirava. E tirava con tutte le sue forze, puntando i piedi contro il parapetto del pozzo. A un tratto l\'uncino si staccò. Alì cadde sulla schiena, guardò in alto e vide la luna in mezzo al cielo.\r\n                - Dio sia lodato - esclamò Alì soddisfatto - mi sarò fatto qualche bernoccolo ma la luna è tornata al suo posto.\r\n', '2022-08-26 20:57:06', '2a', 'Inizio', 0, 0, NULL, 'Testo'),
+(17, 'La storia di babbo natale', 'Arial', '                Babbo Natale con la slitta si avvicina alla città.\r\n                È notte fonda.\r\n                Nessuno lo vede. Tutti i bambini sono sotto le coperte a sognare.\r\n                Babbo Natale si ferma davanti alle case e prende il grande foglio dove sono scritti i nomi di tutti i bambini.\r\n                Poi entra nelle case e qui lascia il trenino, lì il carro dei pompieri, la cucinina, i burattini, e così via.\r\n', '2022-08-26 20:58:27', '1a', 'Inizio', 0, 0, NULL, 'Testo'),
+(18, 'Il bruco e i gerani', 'Arial', '                La mamma di Gigi ha messo in casa i gerani, al riparo dal freddo. Un giorno trova un piccolo bruco verde, che mangia le foglie.\r\n                - Povere foglie! - dice la mamma.\r\n                - Povero bruco! - dice Gigi. - Che fine farà? Bisogna salvarlo.\r\n                Prepara un aeroplanino di carta e vi spinge sopra il bruco. \r\n                La mamma apre la finestra e Gigi fa volare l\'aereo. \r\n                - Speriamo che scenda nell\'erba del prato! - esclama. - Anche quella è buona da mangiare.\r\n', '2022-08-26 20:59:13', '1a', 'Fine', 0, 0, NULL, 'Testo'),
+(19, 'L\'uomo che non riusciva a crescere', 'Arial', '                Una volta, presso una palude, viveva un uomo alto appena appena due spanne, e aspettava sempre di crescere, ma non cresceva mai.\r\n                Quando fu stanco di aspettare, decise di domandare consiglio alle creature più grandi di lui e andò dal saggio barbagianni.\r\n                - Tu che sei tanto saggio, mi sai dire che devo fare per diventare più alto?\r\n                - Aspetta, perché hai bisogno di diventare più alto?\r\n                - Per vedere più da lontano.\r\n                - Se vuoi vedere più da lontano, arrampicati su un albero. O forse non sei capace?\r\n                - Si, che sono capace. Però non mi era mai venuto in mente.\r\n                Il barbagianni socchiuse gli occhi e disse:\r\n                - Vedi. L\'uomo non ha bisogno di avere un gran corpo, ma un buon cervello. Chi ha intelletto è sempre grande e grosso abbastanza.\r\n', '2022-08-26 21:00:08', '2a', 'Inizio', 0, 0, NULL, 'Testo'),
+(20, 'Il re Alfredo', 'Arial', '                mille e più anni or sono, in Inghilterra regnava un bravo re di nome Alfredo. \r\n                Egli fu il primo a costruire una grande flotta di navi a difesa dell\'Inghilterra, che, essendo un\'isola, è circondata da ogni parte dal mare.\r\n                Percorreva il paese senza scorta e senza seguito. E spesso si intratteneva coi suoi sudditi, senza farsi riconoscere.\r\n                Un giorno arrivò alla casa d\'una povera donna e chiese il permesso di riposarsi. La donna lo fece sedere in cucina, in attesa che alcune focacce che erano nel forno fossero cotte. A un certo momento, la donna ebbe bisogno di andare al pozzo per attingere acqua.\r\n                Non vorrei però che le focacce si bruciassero - disse la donna, che non sapeva con chi aveva a che fare. L\'uomo promise di sorvegliarle.\r\n                Ma appena la donna se ne fu andata, il re Alfredo, che aveva tanti pensieri, dimenticò la promessa e le focacce diventarono carbone.\r\n                Torna la donna e, sentendo puzzo di bruciato, rimprovera il re come se fosse stato un ragazzo scapato.\r\n                - Poco giudizio: - gli dice. - Non siete capace neppure di sorvegliare due focacce.\r\n                Il re Alfredo, punto dell\'amor proprio, tentò di scusarsi: - Io sono il re d\'Inghilterra, e quindi ho ben altri pensieri. La donna lo guardò con meraviglia. Poi senza scomporsi gli disse:\r\n                - Sta bene, voi sarete un re, ma in questo momento il vostro dovere era di sorvegliare che le focacce non si bruciassero.\r\n                - Avete ragione: - esclamò il re Alfredo. - E vi ringrazio della lezione. Ogni dovere va assolto bene, anche se piccolo. Da tutti, anche dai re\r\n', '2022-08-26 21:01:03', '3a', 'Fine', 0, 0, NULL, 'Testo'),
+(21, 'La gatta zoppa', 'Arial', '                In un mattino d\'inverno mentre cadevano fiocchi di neve nel giardino nella mia casa di campagna apparve una gatta bianca e nera che zoppicava e chiedeva aiuto con gli occhi. \r\n                Venne fin sull\'uscio di casa e con la testa mi accarezzava le gambe e voleva a tutti i costi che mi accorgessi che aveva una zampa malata.\r\n                Ebbi compassione di quella povera gatta e le diedi un po\' di latte caldo ed un pezzetto di carne di pollo.\r\n                Dopo aver aver mangiato scomparve ed io rimasi a guardare la neve che imbiancava il prato.\r\n                Non passarono neanche tre minuti che la gatta zoppicando ricomparve da dietro l\'angolo della casa con gli occhi mesti e l\'andatura lenta.\r\n                Si avvicinò di nuovo per farsi accarezzare e poi tornò indietro come per cercare qualcosa.\r\n                Ricomparve con tre piccoli gattini infreddoliti uno dietro l\'altro e li portò vicino a me per farmeli vedere.\r\n                Avevano freddo e fame e diedi a loro il latte e la carne mentre la mamma, felice, li leccava per pulirli.\r\n                Misi tutta la famigliola in una cassetta con la lana e la portai al riparo nel ripostiglio con la legna.\r\n                La gatta, una volta al sicuro, non zoppicò più e continuò ad accarezzarmi le gambe con la sua testa.\r\n                Recitò tutta quella parte per commuovermi e per salvare i suoi gattini dal freddo.\r\n', '2022-08-26 21:02:21', '3a', 'Fine', 0, 0, NULL, 'Testo'),
+(22, 'Il nanetto che voleva la pera', 'Arial', '                Sotto un piccolo abete rosso in un bosco viveva un nanetto non più grande di una pigna.\r\n                Quando venne l\'autunno il nostro omino si disse: - È tempo che vada a far provvista di pere per quando verrà l\'inverno.\r\n                Così il mattino dopo, il nanetto indossò la sua giacchettina, si mise in testa il berretto rosso, prese il sacco da montagna e si incamminò verso il villaggio.              \r\n                Il nanetto attraversò felicemente il bosco e il prato e arrivò al frutteto.\r\n                Là le pere gialle gli sorridevano invitanti dall\'albero. Ma ahimè, le pere erano in alto, e il nanetto in basso.\r\n                Il vento che danzava gaiamente sulla cima dell\'albero vide la difficoltà dell\'omino e gli gettò davanti ai piedi una delle pere più belle.\r\n                Il nanetto non stava più in sé dalla gioia, fece al vento un profondissimo inchino e disse:\r\n                - Grazie mille!\r\n                Poi ficcò la pera nel suo sacco da montagna, se lo mise sulle spalle e tornò a casa.\r\n                E che cosa pensate che ne abbia fatto, il nanetto, di quella pera? Ne mangiò una parte cruda, una parte ne fece marmellata, una parte la tagliò ben bene a pezzetti e la mise sotto zucchero per l\'inverno, e dal resto ne ricavò del sidro dolce.\r\n                E ne bevve tanto che il mondo cominciò a girargli intorno, al punto che il nanetto non sapeva più se a danzare erano gli alberi o era lui. Alla fine cadde al suolo stanco morto e si addormentò.\r\n', '2022-08-27 06:53:32', '2a', 'Fine', 0, 0, NULL, 'Testo'),
+(23, 'Storia di uno sbadiglio', 'Arial', '                Un giorno una ragazzina portò a passeggio la sorellina in carrozzella. La sorellina era stanca, e sbadigliò, Allora anche alla ragazzina venne voglia di sbadigliare.\r\n                La donna del negozio di cappelli la vide e subito sbadigliò anche lei, e la gente alla fermata del tram e il giornalaio e il ciclista, tutti si misero a sbadigliare.\r\n                Arrivò il tram e il manovratore, vedendo tutte quelle bocche aperte, cominciò a sbadigliare e sbadigliare, e non riusciva a ripartire. Un camionista, che voleva sapere perché il tram stesse fermo per tanto tempo, si sporse dal finestrino e subito lo sbadiglio colse anche lui.\r\n                Gli altri automobilisti lo videro. Subito fermarono le automobili e sbadigliarono. Il vigile voleva suonare il fischietto perché tutti si decidessero a rimettersi in moto. Ma non riuscì a fischiare, perché venne voglia di sbadigliare anche a lui.\r\n                In breve tempo tutta la gente, tutti i cani e i gatti della città si misero a sbadigliare, anche lo spazzacamino sul tetto e persino i lombrichi nella terra! Per fortuna fu presto sera, e tutti andarono a dormire di buon\'ora.\r\n', '2022-08-27 06:54:48', '3a', 'Inizio', 0, 0, NULL, 'Testo'),
+(24, 'La fiaba dello scoiattolo', 'Arial', '                C\'era una volta una bambina che cercava funghi nel bosco. Sotto un albero, vide uno scoiattolo piccolo piccolo con una grande coda soffice.\r\n                Lo scoiattolino non si mosse e non cercò di scappare. Tremava tutto, con gli occhietti chiusi.\r\n                - Povero scoiattolino - disse la bambina - forse è malato.\r\n                Si inginocchiò, si tolse il berretto di lana e lo mise intorno allo scoiattolino.\r\n                Il giorno dopo, lo scoiattolino era ancora là, dentro il berretto. La bambina gli mise vicino delle briciole di pane.\r\n                Il terzo giorno, lo scoiattolino era scomparso. Per terra c\'era il berretto di lana e nel mezzo brillava un anellino d\'oro.\r\n', '2022-08-27 06:55:45', '1a', 'Fine', 0, 0, NULL, 'Testo'),
+(25, 'Il semaforo che si era stancato', 'Arial', '                Un giorno un semaforo, che si trovava ad un incrocio al centro della città si stancò. Era stufo di accendere sempre gli stessi tre colori: rosso, giallo, verde.      \r\n                - Esistono tanti altri bei colori - pensava - il blu il celeste, il bianco, il rosa, il marrone... perché non dovrei mai usarli?\r\n                Fu così che quel giorno, a quell\'incrocio, se ne videro davvero di tutti i colori.\r\n                Autisti e pedoni non capivano più nulla.\r\n                - Chi deve passare ora che il semaforo è blu? - chiedeva uno.\r\n                E un altro diceva: - Il grigio è per le auto o per i pedoni?\r\n                Finalmente, pedoni e autisti decisero di mettersi d\'accordo: col rosa sarebbero passate le donne, con l\'azzuro gli uomini, col bianco i bambini e col grigio le persone anziane; quanto alle automobili sarebbero passate con il lilla, mentre i camion sarebbero passati col marrone.\r\n                Mai a quell\'incrocio, il traffico era stato tanto rapido ed ordinato, e perfino divertente.\r\n                Si divertiva finalmente anche il semaforo.\r\n                Ma ad un tratto arrivò un vigile urbano che teneva molto al regolamento.\r\n                - Questo semaforo si è guastato - disse. - Corro subito a telefonare per farlo riparare.\r\n                A sentirlo, il nostro semaforo si arrabbiò moltissimo. E, messo il rosso da tutte le parti, non fece passare più nessuno.', '2022-08-27 06:56:40', '1a', 'Inizio', 0, 0, NULL, 'Testo'),
+(26, 'La fiaba del tappeto', 'Arial', '                C\'era una volta un bambino molto piccolo e curioso. Un giorno, si fermò a guardare una scimmietta. Quando si girò non vide più, in mezzo alla folla, né il papà né la mamma.\r\n                Cammina cammina, non riusciva a trovarli. Allora si mise a piangere.\r\n                - Perché piangi? - gli chiese un vecchio che vendeva tappeti.\r\n                Il bambino gli disse che si era perduto.\r\n                - Vuoi tornare a casa? Siediti su questo tappeto. È un tappeto speciale, che non vendo a nessuno.\r\n                Il bambino si sedette. E il tappeto, che era magico, volò sopra il mercato, sopra la città e i campi, e atterrò proprio davanti alla sua casa.\r\n                Il bambino scese felice. Quando si voltò per ringraziare quel tappeto meraviglioso, lo vide già in alto nel cielo, e sempre più lontano. Il tappeto tornava dal suo padrone.\r\n', '2022-08-27 06:57:27', '2a', 'Inizio', 0, 0, NULL, 'Testo'),
+(27, 'I topi campanari', 'Arial', '                C\'era una volta un vecchio campanile abbandonato, e nel vecchio campanile c\'erano molti topi.\r\n                Un giorno, dall\'alto, videro il campanaro che tirava una lunga fune e sentirono suonare la campana.\r\n                A certi topi la cosa sembrò molto bella. Quando il campanaro andò via, essi proposero agli altri di provare anche loro a suonare la campana.\r\n                - Si, si, suoniamo la campana! Diventeremo famosi tutti ci ammireranno! - dissero gli altri, e si attaccarono tutti alla fune.\r\n                La fune dondolava in qua e in là, ma la campana non suonava. I topi raddoppiarono i loro sforzi, e non si accorsero che il campanaro era tornato e stava anche lui tirando la fune.\r\n                La campana si mise a suonare.\r\n                Quando il campanaro se ne andò di nuovo e il suono cessò, i topi abbandonarono la corda e si abbracciarono felici tra loro.\r\n                - È stata una grande fatica, - dissero - ma ci siamo riusciti!\r\n                E si sparsero ai quattro venti per raccontare a tutti la loro impresa.\r\n', '2022-08-27 06:58:58', '2a', 'Fine', 0, 0, NULL, 'Testo'),
+(28, 'La percezione del tempo', 'Arial', 'Il tempo, con le sue peculiari caratteristiche, è stato da sempre oggetto di studio di filosofi e scienziati\r\nche con le loro analisi hanno provato a comprenderne la natura e concettualizzarlo con maggiore chiarezza;\r\ntuttavia sembra che la sua essenza astratta e intagibile non consenta di giungere ad una descrizione univoca.\r\n\tL\'esistenza del tempo con il suo scorrere inesorabile appare palese, pertanto da sempre l\'umanità ha \r\ntentato di misurarlo e nel corso dei secoli si è prodigata, con l\'avanzare delle tecnologie, nella creazione 
+di meccanismi sempre più sofisticati e precisi. Si è passati dall\'osservazione e misurazione dei movimenti \r\ndel sole attraverso i cambiamenti che questo produce sulle proiezioni delle ombre di gnomoni fissi, come \r\ngli obelischi di grandi dimensioni, alle proiezioni di fasci di luce attraverso fori, per indicare lo scorrere \r\ndel tempo su scale graduate: le meridiane. Successivamente, per non dipendere esclusivamente dal sole, si \r\nsono diffuse le clessidre fino ad arrivare poi ai medievali orologi meccanici e agli attuali cronometri legati \r\nall\'instabilità di cristalli di quarzo o ai precisissimi sistemi basati sulle oscillazioni degli elettroni del cesio.\r\n	\tMa probabilmente i tentativi di misurazione servono anche per ovviare agli inevitabili errori di \r\nvalutazione soggettiva a cui tutti possiamo andare incontro nella vita quotidiana. È esperienza comune \r\nquella di percepire il tempo in modo molto variabile; le stime di durata di un determinato evento, fatte da \r\nosservatori diversi, possono risultare molto differenti tra loro, così come lo stesso soggetto in situazioni \r\ndiverse può avere percezioni distorte dello scorrere del tempo e fornire stime discordanti rispetto alle \r\neffettive durate misurate da orologi e cronometri.\r\n	\tIl concetto di soggettività sembra sovrapponibile a quello descritto dalla teoria della relatività dove \r\nla misurazione oggettiva del tempo è influenzata da variazioni di forze fisiche, tra cui la velocità, per \r\ncui soggetti diversi vivrebbero dimensioni temporali distinte a seconda delle forze in cui sono immersi:\r\n relatività appunto. Con la conseguenza del paradosso dei gemelli che inizialmente appartenenti allo stesso \r\nsistema di forze, inseriti in sistemi dinamici con proprietà distinte, si ritroverebbero a subire cambiamenti \r\ntemporali molto diversi per ritrovarsi a rallentare o accellerare la loro rispettiva crescita cronologica pur \r\nessendo partiti dallo stesso punto cronobiologico.\r\n	\tLa soggettività introduce anche la possibilità che il tempo sia frutto di una percezione illusoria, di \r\nuna dimensione inesistente, creata dalla mente e necessaria per organizzare gli eventi. Questo complica \r\nulteriormente il discorso, la cui analisi richiederebbe molto più tempo...\r\n', '2022-11-01 15:22:32', 'Adulti', 'Fine', 0, 0, NULL, 'Testo'),
+(29, 'Lista parole', 'Arial', 'trattore
+elogiare
+decelerare
+pasticcere
+screpolato
+galleggiare
+disintegrato
+rabbrividire
+sparpagliato
+falegnameria
+magazziniere
+omogeneizzato
+rimpicciolire
+impassibilità
+alleggerimento
+canalizzazione
+decappottabile
+sfacciataggine
+mitragliatrice
+parallelepipedo
+sbadiglio
+unanimità
+grammatica
+negligenza
+lampeggiare
+memorizzare
+consuetudine
+determinante
+telegiornale
+giardinaggio
+abbreviazione
+addomesticare
+distribuzione
+inarrestabile
+maleducazione
+piastrellista
+vulnerabilità
+falsificazione
+opportunamente
+raddoppiamento
+annaspare
+cantonata
+sarcofago
+zafferano
+massiccio
+quietanza
+differire
+parabolico
+nidificare
+ortopedico
+collaudato
+intersecare
+levitazione
+umidificatore
+volatilizzare
+fermentazione
+regolarizzare
+beatificazione
+discutibilmente
+globalizzazione', '2022-11-04 09:39:56', 'Adulti', 'Fine', 0, 0, 'Seleziona un testo', 'Lista'), 
+(30, 'Lista non-parole', 'Arial', 'bitano
+cotaro
+bisina
+telaco
+gilusa
+drasepi
+stoluda
+prilose
+scobagi
+stelima
+dasatrina
+docobrino
+lesestema
+satognole
+defetrolo
+frosenasco
+scogiposto
+statobisca
+stilomigre
+trebiligna
+levunto
+bitinse
+ditelvo
+dorinse
+licempo
+blustose
+brognana
+grescovo
+trespomi
+spendoli
+cuntralino
+sdolimiro
+smilogina
+trimesoma
+clinesobi
+gumatrile
+fabriminio
+bostolano
+stenomitro
+nocleturmio', '2022-11-04 09:53:55', 'Adulti', 'Fine', 0, 0, 'Seleziona un testo', 'Lista');
+>>>>>>> Stashed changes
 
 
 -- --------------------------------------------------------
@@ -6600,7 +6873,111 @@ INSERT INTO `text_words` (`id`, `word`, `position`, `text`, `row`) VALUES
 (4363, 5358, 396, 28, 5),
 (4364, 4063, 397, 28, 5),
 (4365, 2115, 398, 28, 5),
+<<<<<<< Updated upstream
 (4366, 3201, 399, 28, 5);
+=======
+(4366, 3201, 399, 28, 5),
+(4367, 1505, 1, 29, 1),
+(4368, 5363, 2, 29, 2),
+(4369, 5365, 3, 29, 3),
+(4370, 5366, 4, 29, 4),
+(4371, 5373, 5, 29, 5),
+(4372, 5376, 6, 29, 6),
+(4373, 5384, 7, 29, 7),
+(4374, 5389, 8, 29, 8),
+(4375, 5391, 9, 29, 9),
+(4376, 5396, 10, 29, 10),
+(4377, 5399, 11, 29, 11),
+(4378, 5401, 12, 29, 12),
+(4379, 5405, 13, 29, 13),
+(4380, 5408, 14, 29, 14),
+(4381, 5410, 15, 29, 15),
+(4382, 5413, 16, 29, 16),
+(4383, 5420, 17, 29, 17),
+(4384, 5421, 18, 29, 18),
+(4385, 5422, 19, 29, 19),
+(4386, 5426, 20, 29, 20),
+(4387, 3461, 21, 29, 21),
+(4388, 5427, 22, 29, 22),
+(4389, 5429, 23, 29, 23),
+(4390, 5441, 24, 29, 24),
+(4391, 5443, 25, 29, 25),
+(4392, 5449, 26, 29, 26),
+(4393, 5454, 27, 29, 27),
+(4394, 5005, 28, 29, 28),
+(4395, 5456, 29, 29, 29),
+(4396, 5458, 30, 29, 30),
+(4397, 5459, 31, 29, 31),
+(4398, 5461, 32, 29, 32),
+(4399, 5463, 33, 29, 33),
+(4400, 5468, 34, 29, 34),
+(4401, 5470, 35, 29, 35),
+(4402, 5472, 36, 29, 36),
+(4403, 5475, 37, 29, 37),
+(4404, 5477, 38, 29, 38),
+(4405, 5485, 39, 29, 39),
+(4406, 5487, 40, 29, 40),
+(4407, 5489, 41, 29, 41),
+(4408, 5491, 42, 29, 42),
+(4409, 5497, 43, 29, 43),
+(4410, 5499, 44, 29, 44),
+(4411, 5503, 45, 29, 45),
+(4412, 5506, 46, 29, 46),
+(4413, 5507, 47, 29, 47),
+(4414, 5509, 48, 29, 48),
+(4415, 5512, 49, 29, 49),
+(4416, 5516, 50, 29, 50),
+(4417, 5518, 51, 29, 51),
+(4418, 5526, 52, 29, 52),
+(4419, 5527, 53, 29, 53),
+(4420, 5534, 54, 29, 54),
+(4421, 5537, 55, 29, 55),
+(4422, 5539, 56, 29, 56),
+(4423, 5542, 57, 29, 57),
+(4424, 5543, 58, 29, 58),
+(4425, 5548, 59, 29, 59),
+(4426, 5550, 60, 29, 60),
+(4427, 5551, 1, 30, 1),
+(4428, 5557, 2, 30, 2),
+(4429, 5558, 3, 30, 3),
+(4430, 5559, 4, 30, 4),
+(4431, 5561, 5, 30, 5),
+(4432, 5562, 6, 30, 6),
+(4433, 5563, 7, 30, 7),
+(4434, 5565, 8, 30, 8),
+(4435, 5566, 9, 30, 9),
+(4436, 5567, 10, 30, 10),
+(4437, 5568, 11, 30, 11),
+(4438, 5569, 12, 30, 12),
+(4439, 5570, 13, 30, 13),
+(4440, 5571, 14, 30, 14),
+(4441, 5572, 15, 30, 15),
+(4442, 5573, 16, 30, 16),
+(4443, 5574, 17, 30, 17),
+(4444, 5575, 18, 30, 18),
+(4445, 5576, 19, 30, 19),
+(4446, 5577, 20, 30, 20),
+(4447, 5578, 21, 30, 21),
+(4448, 5579, 22, 30, 22),
+(4449, 5581, 23, 30, 23),
+(4450, 5584, 24, 30, 24),
+(4451, 5585, 25, 30, 25),
+(4452, 5586, 26, 30, 26),
+(4453, 5587, 27, 30, 27),
+(4454, 5588, 28, 30, 28),
+(4455, 5589, 29, 30, 29),
+(4456, 5591, 30, 30, 30),
+(4457, 5595, 31, 30, 31),
+(4458, 5597, 32, 30, 32),
+(4459, 5598, 33, 30, 33),
+(4460, 5599, 34, 30, 34),
+(4461, 5600, 35, 30, 35),
+(4462, 5601, 36, 30, 36),
+(4463, 5602, 37, 30, 37),
+(4464, 5603, 38, 30, 38),
+(4465, 5604, 39, 30, 39),
+(4466, 5605, 40, 30, 40);
+>>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
@@ -6636,16 +7013,24 @@ CREATE TABLE `users` (
   `email` varchar(100) DEFAULT NULL,
   `username` varchar(30) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
-  `register_date` timestamp NOT NULL DEFAULT current_timestamp()
+  `dyslexia` varchar(30) DEFAULT NULL,
+  `register_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `admin` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
+<<<<<<< Updated upstream
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `register_date`) VALUES
 (1, 'andrea', 'sterbini@di.uniroma1.it', 'andrea', '$5$rounds=535000$IIHnxJ5x/DxpKQKO$BLN45uXD3RXv6T8lTBk2aCPTcKbYzTvazX6mlRci14B', '2022-08-25 15:38:08'),
 (2, '1883259', 'gervasio.1883259@studenti.uniroma1.it', '1883259', '$5$rounds=535000$QrqwqMbtGJGt75EN$ZfkiWvrmRhiUrmjTDcbAceWqB47e8a7k3MQMlSPR.C.', '2022-10-31 14:04:54');
+=======
+INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `dyslexia`, `register_date`, `admin`) VALUES
+(1, 'andrea', 'sterbini@di.uniroma1.it', 'andrea', '$5$rounds=535000$IIHnxJ5x/DxpKQKO$BLN45uXD3RXv6T8lTBk2aCPTcKbYzTvazX6mlRci14B', 'No', '2022-08-25 15:38:08', 1),
+(2, '1883259', 'gervasio.1883259@studenti.uniroma1.it', '1883259', '$5$rounds=535000$QrqwqMbtGJGt75EN$ZfkiWvrmRhiUrmjTDcbAceWqB47e8a7k3MQMlSPR.C.', 'No', '2022-10-31 14:04:54', 1);
+>>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
@@ -11264,7 +11649,254 @@ INSERT INTO `words` (`id`, `word`, `type`) VALUES
 (5359, 'chiederebbe', ''),
 (5360, 'richiedere', ''),
 (5361, 'richiederebbero', ''),
+<<<<<<< Updated upstream
 (5362, 'rischierebbe', '');
+=======
+(5362, 'rischierebbe', ''),
+(5363, 'elogiare', ''),
+(5364, 'elogia', ''),
+(5365, 'decelerare', ''),
+(5366, 'pasticcere', ''),
+(5367, 'pasticcera', ''),
+(5368, 'pasticceri', ''),
+(5369, 'pasticceria', ''),
+(5370, 'pasticcerie-', ''),
+(5371, 'pasticciare', ''),
+(5372, 'pasticciere', ''),
+(5373, 'screpolato', ''),
+(5374, 'screpolata', ''),
+(5375, 'screpolati', ''),
+(5376, 'galleggiare', ''),
+(5377, 'aleggiare', ''),
+(5378, 'alloggiare', ''),
+(5379, 'galleggia', ''),
+(5380, 'galleggiante', ''),
+(5381, 'galleggiarle', ''),
+(5382, 'gareggiare', ''),
+(5383, 'palleggiare', ''),
+(5384, 'disintegrato', ''),
+(5385, 'disintegra', ''),
+(5386, 'disintegrando', ''),
+(5387, 'disintegrata', ''),
+(5388, 'integrato', ''),
+(5389, 'rabbrividire', ''),
+(5390, 'rabbrividisce', ''),
+(5391, 'sparpagliato', ''),
+(5392, 'sbaragliato', ''),
+(5393, 'sparpagliano', ''),
+(5394, 'sparpagliata', ''),
+(5395, 'sparpagliati', ''),
+(5396, 'falegnameria', ''),
+(5397, 'falegname', ''),
+(5398, 'falegnami', ''),
+(5399, 'magazziniere', ''),
+(5400, 'magazzini', ''),
+(5401, 'omogeneizzato', ''),
+(5402, 'omogeneizzati', ''),
+(5403, 'omogeneizzatore', ''),
+(5404, 'omogenizzatori', ''),
+(5405, 'rimpicciolire', ''),
+(5406, 'rimpicciolirsi', ''),
+(5407, 'rimpicciolisce', ''),
+(5408, 'impassibilità', ''),
+(5409, 'impassibili', ''),
+(5410, 'alleggerimento', ''),
+(5411, 'alleggerito', ''),
+(5412, 'galleggiamento', ''),
+(5413, 'canalizzazione', ''),
+(5414, 'banalizzazione', ''),
+(5415, 'canalizzazioni', ''),
+(5416, 'canonizzazione', ''),
+(5417, 'capitalizzazione', ''),
+(5418, 'localizzazione', ''),
+(5419, 'penalizzazione', ''),
+(5420, 'decappottabile', ''),
+(5421, 'sfacciataggine', ''),
+(5422, 'mitragliatrice', ''),
+(5423, 'mitragliatore', ''),
+(5424, 'mitragliatori', ''),
+(5425, 'mitragliatrici', ''),
+(5426, 'parallelepipedo', ''),
+(5427, 'unanimità', ''),
+(5428, 'unanimi', ''),
+(5429, 'grammatica', ''),
+(5430, 'drammatica', ''),
+(5431, 'gramatica', ''),
+(5432, 'grammaticale', ''),
+(5433, 'grammaticali', ''),
+(5434, 'grammatiche', ''),
+(5435, 'grammatici', ''),
+(5436, 'prammatica', ''),
+(5437, 'programmatica', ''),
+(5438, 'sgrammaticata', ''),
+(5439, 'sgrammaticati', ''),
+(5440, 'sgrammaticato', ''),
+(5441, 'negligenza', ''),
+(5442, 'negligenze', ''),
+(5443, 'lampeggiare', ''),
+(5444, 'armeggiare', ''),
+(5445, 'campeggiare', ''),
+(5446, 'lampeggia', ''),
+(5447, 'lampeggiante', ''),
+(5448, 'lampeggiatore', ''),
+(5449, 'memorizzare', ''),
+(5450, 'ammortizzare', ''),
+(5451, 'memorizza', ''),
+(5452, 'memorizzate', ''),
+(5453, 'teorizzare', ''),
+(5454, 'consuetudine', ''),
+(5455, 'consuetudini', ''),
+(5456, 'telegiornale', ''),
+(5457, 'telegiornali', ''),
+(5458, 'giardinaggio', ''),
+(5459, 'abbreviazione', ''),
+(5460, 'abbreviazioni', ''),
+(5461, 'addomesticare', ''),
+(5462, 'addomesticarli', ''),
+(5463, 'distribuzione', ''),
+(5464, 'distruzione', ''),
+(5465, 'istruzione', ''),
+(5466, 'redistribuzione', ''),
+(5467, 'ridistribuzione', ''),
+(5468, 'inarrestabile', ''),
+(5469, 'inarrestabili', ''),
+(5470, 'maleducazione', ''),
+(5471, 'educazione', ''),
+(5472, 'piastrellista', ''),
+(5473, 'piastrella', ''),
+(5474, 'piastrellata', ''),
+(5475, 'vulnerabilità', ''),
+(5476, 'vulnerabili', ''),
+(5477, 'falsificazione', ''),
+(5478, 'amplificazione', ''),
+(5479, 'falsification', ''),
+(5480, 'falsificazioni', ''),
+(5481, 'gasificazione', ''),
+(5482, 'gassificazione', ''),
+(5483, 'massificazione', ''),
+(5484, 'qualificazione', ''),
+(5485, 'opportunamente', ''),
+(5486, 'inopportunamente', ''),
+(5487, 'raddoppiamento', ''),
+(5488, 'raddoppiato', ''),
+(5489, 'annaspare', ''),
+(5490, 'annaspa', ''),
+(5491, 'cantonata', ''),
+(5492, 'accantonata', ''),
+(5493, 'cannonata', ''),
+(5494, 'cantata', ''),
+(5495, 'cantona', ''),
+(5496, 'cantonate', ''),
+(5497, 'sarcofago', ''),
+(5498, 'sarcofagi', ''),
+(5499, 'zafferano', ''),
+(5500, 'affermano', ''),
+(5501, 'afferrano', ''),
+(5502, 'zafferana', ''),
+(5503, 'massiccio', ''),
+(5504, 'massicci', ''),
+(5505, 'massiccia', ''),
+(5506, 'quietanza', ''),
+(5507, 'differire', ''),
+(5508, 'differite', ''),
+(5509, 'parabolico', ''),
+(5510, 'parabolica', ''),
+(5511, 'paraboliche', ''),
+(5512, 'nidificare', ''),
+(5513, 'nidifica', ''),
+(5514, 'nidificante', ''),
+(5515, 'riedificare', ''),
+(5516, 'ortopedico', ''),
+(5517, 'ortopedica', ''),
+(5518, 'collaudato', ''),
+(5519, 'collaudando', ''),
+(5520, 'collaudata', ''),
+(5521, 'collaudate', ''),
+(5522, 'collaudati', ''),
+(5523, 'collaudatore', ''),
+(5524, 'collaudatori', ''),
+(5525, 'collaudo', ''),
+(5526, 'intersecare', ''),
+(5527, 'levitazione', ''),
+(5528, 'deviazione', ''),
+(5529, 'elevazione', ''),
+(5530, 'esitazione', ''),
+(5531, 'evirazione', ''),
+(5532, 'levitazioni', ''),
+(5533, 'lievitazione', ''),
+(5534, 'umidificatore', ''),
+(5535, 'deumidificatore', ''),
+(5536, 'umidificatori', ''),
+(5537, 'volatilizzare', ''),
+(5538, 'volatilizza', ''),
+(5539, 'fermentazione', ''),
+(5540, 'frammentazione', ''),
+(5541, 'sperimentazione', ''),
+(5542, 'regolarizzare', ''),
+(5543, 'beatificazione', ''),
+(5544, 'beatificazioni', ''),
+(5545, 'certificazione', ''),
+(5546, 'gratificazione', ''),
+(5547, 'santificazione', ''),
+(5548, 'discutibilmente', ''),
+(5549, 'indiscutibilmente', ''),
+(5550, 'globalizzazione', ''),
+(5551, 'bitano', ''),
+(5552, 'abitando', ''),
+(5553, 'abitano', ''),
+(5554, 'abituano', ''),
+(5555, 'dubitano', ''),
+(5556, 'orbitano', ''),
+(5557, 'cotaro', ''),
+(5558, 'bisina', ''),
+(5559, 'telaco', ''),
+(5560, 'telemaco', ''),
+(5561, 'gilusa', ''),
+(5562, 'drasepi', ''),
+(5563, 'stoluda', ''),
+(5564, 'stolida', ''),
+(5565, 'prilose', ''),
+(5566, 'scobagi', ''),
+(5567, 'stelima', ''),
+(5568, 'dasatrina', ''),
+(5569, 'docobrino', ''),
+(5570, 'lesestema', ''),
+(5571, 'satognole', ''),
+(5572, 'defetrolo', ''),
+(5573, 'frosenasco', ''),
+(5574, 'scogiposto', ''),
+(5575, 'statobisca', ''),
+(5576, 'stilomigre', ''),
+(5577, 'trebiligna', ''),
+(5578, 'levunto', ''),
+(5579, 'bitinse', ''),
+(5580, 'intinse', ''),
+(5581, 'ditelvo', ''),
+(5582, 'dirtelo', ''),
+(5583, 'ditelo', ''),
+(5584, 'dorinse', ''),
+(5585, 'licempo', ''),
+(5586, 'blustose', ''),
+(5587, 'brognana', ''),
+(5588, 'grescovo', ''),
+(5589, 'trespomi', ''),
+(5590, 'resomi', ''),
+(5591, 'spendoli', ''),
+(5592, 'pendoli', ''),
+(5593, 'spendi', ''),
+(5594, 'spendo', ''),
+(5595, 'cuntralino', ''),
+(5596, 'centralino', ''),
+(5597, 'sdolimiro', ''),
+(5598, 'smilogina', ''),
+(5599, 'trimesoma', ''),
+(5600, 'clinesobi', ''),
+(5601, 'gumatrile', ''),
+(5602, 'fabriminio', ''),
+(5603, 'bostolano', ''),
+(5604, 'stenomitro', ''),
+(5605, 'nocleturmio', '');
+>>>>>>> Stashed changes
 
 -- --------------------------------------------------------
 
@@ -11397,7 +12029,11 @@ ALTER TABLE `errors`
 -- AUTO_INCREMENT for table `sim_words`
 --
 ALTER TABLE `sim_words`
+<<<<<<< Updated upstream
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3958;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4107;
+>>>>>>> Stashed changes
 
 --
 -- AUTO_INCREMENT for table `highlighted_words`
@@ -11433,7 +12069,11 @@ ALTER TABLE `texts`
 -- AUTO_INCREMENT for table `text_words`
 --
 ALTER TABLE `text_words`
+<<<<<<< Updated upstream
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4367;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4467;
+>>>>>>> Stashed changes
 
 --
 -- AUTO_INCREMENT for table `transcriptions`
@@ -11451,7 +12091,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `words`
 --
 ALTER TABLE `words`
+<<<<<<< Updated upstream
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5363;
+=======
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5606;
+>>>>>>> Stashed changes
 
 --
 -- Constraints for dumped tables

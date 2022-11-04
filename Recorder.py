@@ -24,10 +24,15 @@ def convert():
     rec = False
     time.sleep(0.5)
     files = glob.glob('audio/*.wav')
-    file = max(files, key=os.path.getctime)
+    if len(files) > 0:
+        file = max(files, key=os.path.getctime)
+    else:
+        return 0
+    f = file
     file = file[:-4]
     flacFile = AudioSegment.from_wav(f'{file}.wav')
     flacFile.export(f'{file}.flac', format='flac')
+    #os.remove(f)
     return 0
     
 def record():
