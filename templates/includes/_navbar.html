@@ -12,7 +12,13 @@
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           {% if session.logged_in %}
+            {% if session.admin %}
+              <li><a href="/add_domain">Add domains</a></li>
+              <li><a href="/add_admin">Add admins</a></li>
+            {% endif %}
+            <!---
             <li><a href="/settings">Settings</a></li>
+            --->
           {% endif %}
         </ul>
 

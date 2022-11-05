@@ -107,6 +107,10 @@ def login():
                 session['username'] = username
                 session['id'] = result.id
                 session['adjacents'] = 0
+                if result.admin:
+                    session['admin'] = True
+                else:
+                    session['admin'] = False
                 #for i in algorithms:
                 #    session[i] = False
 
@@ -133,13 +137,13 @@ def is_logged_in(f):
             flash('Unauthorized, Please login', 'danger')
             return redirect(url_for('login'))
     return wrap
-
+    
 
 @app.route('/analyzed_audios', methods=['GET', 'POST'])
 @is_logged_in
 def analyzed_audios():
     transcriptions = (db.session.query(Transcriptions, Patients, Working_texts)
-                      .filter_by(supervisor_id=session['id'])
+                      #.filter_by(supervisor_id=session['id'])
                       .outerjoin(Patients, Patients.cf==Transcriptions.patient_id)
                       .outerjoin(Working_texts, Working_texts.id==Transcriptions.text_id)
                       .add_columns(Patients.cf, 
@@ -558,6 +562,52 @@ def add_time(time):
     times.append(time)
     return render_template('text_upload.html') 
 
+@app.route('/add_domain', methods=['GET', 'POST'])
+@is_logged_in
+def add_domain():
+    error = ''
+    if request.method == "POST":
+        new_domain = request.form['new_domain']
+        domain = Domains.query.filter_by(domain=new_domain).first()
+        if not domain:
+            db.session.add(Domains(new_domain))
+            db.session.commit()
+        else:
+            error = 'Dominio già presente'
+    domains = Domains.query.all()
+    return render_template('add_domain.html', domains=domains, error=error)
+
+@app.route('/delete_domain/<string:id>', methods=["GET", "POST"])
+@is_logged_in
+def delete_domain(id):
+    Domains.query.filter_by(id=id).delete()
+    db.session.commit()
+    return redirect(url_for('add_domain'))
+
+
+@app.route('/add_admin', methods=['GET', 'POST'])
+@is_logged_in
+def add_admin():
+    error = ''
+    if request.method == "POST":
+        new_admin = request.form['new_admin']
+        user = Supervisors.query.filter_by(username=new_admin).first()
+        if user:
+            user.admin = 1
+            db.session.commit()
+        else:
+            error = 'Utente non esistente'
+    admins = Supervisors.query.filter_by(admin=1).all()
+    return render_template('add_admin.html', admins=admins, error=error)
+
+@app.route('/delete_admin/<string:id>', methods=["GET", "POST"])
+@is_logged_in
+def delete_admin(id):
+    Supervisors.query.filter_by(id=id).first().admin = 0
+    db.session.commit()
+    return redirect(url_for('add_admin'))
+
+
 @app.route('/text_upload/', methods=["GET", "POST"])
 @is_logged_in
 def text_upload():
@@ -795,8 +845,8 @@ def domain_check(form, field):
     if len(field.data.split('@')) <= 1:
         raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
     domain = field.data.split('@')[1]
-    if not (domain.endswith("uniroma1.it") or 
-            domain == "unitelmasapienza.it"):
+    result = Domains.query.filter_by(domain=domain).first()
+    if not result:
         raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
 
 class RegisterForm(Form):
@@ -1041,7 +1091,14 @@ class Audio_files(db.Model):
     def __init__(self, filename, text):
         self.filename = filename
         self.text = text
-
+        
+class Domains(db.Model):
+    __tablename__ = 'domains'
+    id = db.Column('id', db.Integer, primary_key=True)
+    domain = db.Column('domain', db.String)
+    
+    def __init__(self, domain):
+        self.domain = domain
 
           
 

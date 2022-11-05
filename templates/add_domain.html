@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <h1 style="width: 94%;">Domini
+    {% if session.logged_in and session.admin %}
+      <form method="POST" enctype="multipart/form-data">
+
+        <div class="form-group">
+          <label for="new_domain">Nuovo dominio:</label>
+          <input type="text" name="new_domain" id="new_domain" value="{{request.form.new_domain}}" class="form-control" style="width:30%"/>
+        </div>
+        
+        <div class="form-group">
+          <p><button type="submit" class="btn btn-success btn right" id="sub_but">Aggiungi</button></p>
+        </div>
+      </form>
+    {% endif %}
+  </h1>
+  <table class="table table-striped">
+    <tr>
+      <th>Dominio</th>
+    </tr>
+    {% for domain in domains %}
+      <tr>
+        <td>{{domain.domain}}</td>
+        {% if session.logged_in %}
+          <td><a href="/delete_domain/{{domain.id}}" class="btn btn-danger">Delete</a></td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+
+
+{% endblock %}

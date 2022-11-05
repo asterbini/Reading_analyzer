@@ -6999,6 +6999,21 @@ INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `dyslexia`, 
 (1, 'andrea', 'sterbini@di.uniroma1.it', 'andrea', '$5$rounds=535000$IIHnxJ5x/DxpKQKO$BLN45uXD3RXv6T8lTBk2aCPTcKbYzTvazX6mlRci14B', 'No', '2022-08-25 15:38:08', 1),
 (2, '1883259', 'gervasio.1883259@studenti.uniroma1.it', '1883259', '$5$rounds=535000$QrqwqMbtGJGt75EN$ZfkiWvrmRhiUrmjTDcbAceWqB47e8a7k3MQMlSPR.C.', 'No', '2022-10-31 14:04:54', 1);
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `domains`
+--
+
+CREATE TABLE `domains` (
+  `id` int(11) NOT NULL,
+  `domain` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `domains` (`id`, `domain`) VALUES
+(1, 'uniroma1.it'), (2, 'unitelmasapienza.it');
+
 -- --------------------------------------------------------
 
 --
@@ -11965,6 +11980,12 @@ ALTER TABLE `transcriptions`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
+  
+--
+-- Indexes for table `domains`
+--
+ALTER TABLE `domains`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `words`
@@ -12040,6 +12061,12 @@ ALTER TABLE `transcriptions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  
+--
+-- AUTO_INCREMENT for table `domains`
+--
+ALTER TABLE `domains`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
