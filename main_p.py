@@ -107,12 +107,16 @@ def login():
                 session['username'] = username
                 session['id'] = result.id
                 session['adjacents'] = 0
+                if result.admin:
+                    session['admin'] = True
+                else:
+                    session['admin'] = False
                 #for i in algorithms:
                 #    session[i] = False
 
                 flash('You are now logged in', 'success')
 
-                return redirect(url_for('analyzed_audios'))
+                return redirect(url_for('uploaded_texts'))
             else:
                 error = 'Invalid login'
                 return render_template('login.html', error=error)
@@ -133,13 +137,13 @@ def is_logged_in(f):
             flash('Unauthorized, Please login', 'danger')
             return redirect(url_for('login'))
     return wrap
-
+    
 
 @app.route('/analyzed_audios', methods=['GET', 'POST'])
 @is_logged_in
 def analyzed_audios():
     transcriptions = (db.session.query(Transcriptions, Patients, Working_texts)
-                      .filter_by(supervisor_id=session['id'])
+                      #.filter_by(supervisor_id=session['id'])
                       .outerjoin(Patients, Patients.cf==Transcriptions.patient_id)
                       .outerjoin(Working_texts, Working_texts.id==Transcriptions.text_id)
                       .add_columns(Patients.cf, 
@@ -552,11 +556,85 @@ times = []
 @app.route('/add_time/<string:time>')
 @is_logged_in
 def add_time(time):
+    global times
     if '.' in time:
         time = time[:time.find('.') + 4]
-    global times
     times.append(time)
     return render_template('text_upload.html') 
+
+@app.route('/add_domain', methods=['GET', 'POST'])
+@is_logged_in
+def add_domain():
+    error = ''
+    if request.method == "POST":
+        new_domain = request.form['new_domain']
+        domain = Domains.query.filter_by(domain=new_domain).first()
+        if not domain:
+            db.session.add(Domains(new_domain))
+            db.session.commit()
+        else:
+            error = 'Dominio già presente'
+    domains = Domains.query.all()
+    return render_template('add_domain.html', domains=domains, error=error)
+
+@app.route('/delete_domain/<string:id>', methods=["GET", "POST"])
+@is_logged_in
+def delete_domain(id):
+    Domains.query.filter_by(id=id).delete()
+    db.session.commit()
+    return redirect(url_for('add_domain'))
+
+
+@app.route('/add_admin', methods=['GET', 'POST'])
+@is_logged_in
+def add_admin():
+    error = ''
+    if request.method == "POST":
+        new_admin = request.form['new_admin']
+        user = Supervisors.query.filter_by(username=new_admin).first()
+        if user:
+            user.admin = 1
+            db.session.commit()
+        else:
+            error = 'Utente non esistente'
+    admins = Supervisors.query.filter_by(admin=1).all()
+    return render_template('add_admin.html', admins=admins, error=error)
+
+@app.route('/delete_admin/<string:id>', methods=["GET", "POST"])
+@is_logged_in
+def delete_admin(id):
+    Supervisors.query.filter_by(id=id).first().admin = 0
+    db.session.commit()
+    return redirect(url_for('add_admin'))
+
+@app.route('/dictation', methods=["GET", "POST"])
+@is_logged_in
+def dictation():
+    if request.method == "POST":
+        user = session['id']
+        filename = request.form['changeselection']
+        text_body = request.form['textarea']
+        file_id = Audio_files.query.filter_by(filename=filename).first().id
+        t = Dictated_texts.query.filter_by(user=user, filename=file_id).all()
+        if len(t) <= 0:
+            db.session.add(Dictated_texts(user, 1, file_id, text_body))
+            db.session.commit()
+        else:
+            db.session.add(Dictated_texts(user, t[-1].user_time + 1, file_id, text_body))
+            db.session.commit()
+        global times
+        if len(times) > 0:
+            text_words = text_body.split()
+            count = min(len(text_words), len(times))
+            q=Dictated_texts.query.filter_by(user=user, filename=file_id, text=text_body).all()[-1]
+            for w in range(count):
+                print(w, text_words[w], times[w])
+                db.session.add(Written_words(user, q.user_time, file_id, q.id, text_words[w], times[w]))
+                db.session.commit()
+        times.clear();
+        return redirect(url_for('uploaded_texts'))
+    return render_template('dictation.html')
+
 
 @app.route('/text_upload/', methods=["GET", "POST"])
 @is_logged_in
@@ -571,8 +649,6 @@ def text_upload():
         text_font = request.form['text_font']
         text_schoolyear = request.form['class']
         text_period = request.form['period']
-        dictation = int(request.form['dictation'])
-        filename = request.form['changeselection']
         t = request.form['type']
         
         #text_cont = get_font_param(text_body)
@@ -587,22 +663,21 @@ def text_upload():
         elif t=='Seleziona un tipo':
             error="Please fill all the fields"
         else:
-            text_info = (text_title, text_body, text_font, text_schoolyear, text_period, dictation, filename, t)
+            text_info = (text_title, text_body, text_font, text_schoolyear, text_period, t)
             #time = '1'
             user = session['id']
-            global times
-            text_upload_task.delay(text_info, times, user, filename)
+            text_upload_task.delay(text_info, user)
 
             return redirect(url_for('analyzed_audios'))
     return render_template('text_upload.html', error=error, classes=classes, types=types)
 
 
 @celery.task
-def text_upload_task(text_info, times_up, user, filename):
-    text_title, text_body, text_font, text_schoolyear, text_period, dictation, filename, t = text_info
+def text_upload_task(text_info, user):
+    text_title, text_body, text_font, text_schoolyear, text_period, t = text_info
     date = datetime.now()
     now = date.strftime('%Y-%m-%d %H:%M:%S')
-    new_text = Working_texts(text_title, text_body, text_font, text_schoolyear, text_period, now, dictation, filename, t)
+    new_text = Working_texts(text_title, text_body, text_font, text_schoolyear, text_period, now, t)
     with open("static/words_italian.txt", "r") as f:
         it_words = f.readlines()
     for line in range(len(it_words)):
@@ -640,6 +715,7 @@ def text_upload_task(text_info, times_up, user, filename):
             count += 1
             db.session.add(new_tword)
             db.session.commit()
+            '''
             if len(times_up) > 0:
                 db.session.add(Written_words(user, filename, q.id, new_tword.id, times_up[w]))
                 db.session.commit()
@@ -647,7 +723,7 @@ def text_upload_task(text_info, times_up, user, filename):
                 db.session.add(Written_words(user, filename, q.id, new_tword.id, times_up[w + 1]))
                 db.session.commit()
     global times
-    times.clear();
+    times.clear();'''
         
 
 @app.route('/logout')
@@ -795,8 +871,8 @@ def domain_check(form, field):
     if len(field.data.split('@')) <= 1:
         raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
     domain = field.data.split('@')[1]
-    if not (domain.endswith("uniroma1.it") or 
-            domain == "unitelmasapienza.it"):
+    result = Domains.query.filter_by(domain=domain).first()
+    if not result:
         raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
 
 class RegisterForm(Form):
@@ -1020,13 +1096,15 @@ class Written_words(db.Model):
     __tablename__ = 'written_words'
     id = db.Column('id', db.Integer, primary_key=True)
     user = db.Column('user', db.Integer)
-    filename = db.Column('filename', db.String)
+    user_time = db.Column('user_time', db.Integer)
+    filename = db.Column('filename', db.Integer)
     text = db.Column('text', db.Integer)
-    text_word = db.Column('text_word', db.Integer)
+    text_word = db.Column('text_word', db.String)
     time = db.Column('time', db.Float)
     
-    def __init__(self, user, filename, text, text_word, time):
+    def __init__(self, user, user_time, filename, text, text_word, time):
         self.user = user
+        self.user_time = user_time
         self.filename = filename
         self.text = text
         self.text_word = text_word
@@ -1041,10 +1119,31 @@ class Audio_files(db.Model):
     def __init__(self, filename, text):
         self.filename = filename
         self.text = text
-
+        
+class Domains(db.Model):
+    __tablename__ = 'domains'
+    id = db.Column('id', db.Integer, primary_key=True)
+    domain = db.Column('domain', db.String)
+    
+    def __init__(self, domain):
+        self.domain = domain
+        
+class Dictated_texts(db.Model):
+    __tablename__ = 'dictated_texts'
+    id = db.Column('id', db.Integer, primary_key=True)
+    user = db.Column('user', db.Integer)
+    user_time = db.Column('user_time', db.Integer)
+    filename = db.Column('filename', db.Integer)
+    text = db.Column('text', db.Text)
+    
+    def __init__(self, user, user_time, filename, text):
+        self.user = user
+        self.user_time = user_time
+        self.filename = filename
+        self.text = text
 
           
 
 if __name__== '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
-    #app.run(debug=True)
+    #app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
+    app.run(debug=True)

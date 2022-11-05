@@ -148,51 +148,6 @@
     <option value="30px">30</option>
   </select>
   
-  <!---
-  <br>
-  <br>
-  
-  <button onclick="activate()">Attiva evidenziazione</button>
-  <button onclick="disactivate()">Disattiva evidenziazione</button>
-  <script>
-    function activate() {
-      document.getElementById('change').style.backgroundColor = "blue";
-    }
-    
-    function disactivate() {
-      document.getElementById('change').style.backgroundColor = "yellow";
-    
-    }
-  </script>
-  
-  <br>
-  <br>
-  --->
-  <!---
-  <br>
-  <br>
-  
-  <label for="evidenziazione">Evidenziazione:</label>
-  <div class="form-group">
-    <select name="evidenziazione" id="evidenziazione" class="select picker form-group">
-      <option selected="selected">Disattivata</option>
-      <option value="Attivata">Attivata</option>
-    </select>
-  </div>
-  --->
-  
-  <!---
-  <article id="change" style="white-space: normal;">
-    {% for l in text.body.splitlines() %}
-      {% for w in l.split() %}
-        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<span class="tab"></span><word class="highlighted">{{w}}</word>{% endif %}
-        {% else %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
-        {% endif %}
-      {% endfor %}
-      <br>
-    {% endfor %}
-  </article>
-  --->
   <article id="change" style="white-space: normal;">
     {% if text.t == "Testo" %}
     {% for l in text.body.splitlines() %}
