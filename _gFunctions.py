@@ -73,8 +73,10 @@ def long_audio(audio_url, phrases=[]):
             start_time = word_info.start_time
             end_time = word_info.end_time
             word_offsets.append({'word': word,
-                               'start': start_time.seconds + start_time.microseconds * 10**(-6),
-                               'end':   end_time.seconds   + end_time.microseconds   * 10**(-6)})
+                               'start': start_time.seconds + start_time.nanos * 10**(-9),
+                               'end':   end_time.seconds   + end_time.nanos   * 10**(-9)})
+                               #'start': start_time.seconds + start_time.microseconds * 10**(-6),
+                               #'end':   end_time.seconds   + end_time.microseconds   * 10**(-6)})
 
     with open('transcription.txt', mode='w') as F:
         F.write(transcript)

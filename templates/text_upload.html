@@ -36,6 +36,16 @@
         {% endfor %}
       </select>
     </div>
+    
+    <div class="form-group"> 
+      <label for="type">Tipo:</label>
+      <select name="type" id="type" class="select picker form-group">
+        <option selected="selected">Seleziona un tipo</option>
+        {% for t in types %}
+          <option value={{t}}>{{t}}</option>
+        {% endfor %}
+      </select>
+    </div>
 
 
     <label for="text_font">Font:</label>
