@@ -39,7 +39,7 @@ def short_audio(audio, context=[]):
     return (result.alternatives[0].transcription, result.alternatives[0].confidence)
 
 
-def long_audio(audio_url, phrases=[]):
+def long_audio(audio_url, phrases=[], transcription_path="", offset_path=""):
     """Asynchronously transcribes the audio file specified by the gcs_uri."""
     #from Contexts import phrases_rows
     transcript = ''
@@ -73,13 +73,19 @@ def long_audio(audio_url, phrases=[]):
             start_time = word_info.start_time
             end_time = word_info.end_time
             word_offsets.append({'word': word,
-                               'start': start_time.seconds + start_time.microseconds * 10**(-6),
-                               'end':   end_time.seconds   + end_time.microseconds   * 10**(-6)})
+                               'start': start_time.seconds + start_time.nanos * 10**(-9),
+                               'end':   end_time.seconds   + end_time.nanos   * 10**(-9)})
+                               #'start': start_time.seconds + start_time.microseconds * 10**(-6),
+                               #'end':   end_time.seconds   + end_time.microseconds   * 10**(-6)})
 
-    with open('transcription.txt', mode='w') as F:
+    with open(transcription_path, mode='w') as F:
+        F.write(transcript)
+    with open(offset_path, mode='w') as F:
+        json.dump(word_offsets,F)
+    '''with open('transcription.txt', mode='w') as F:
         F.write(transcript)
     with open('offsets.txt', mode='w') as F:
-        json.dump(word_offsets,F)
+        json.dump(word_offsets,F)'''
 
     return (transcript, word_offsets, alternative.confidence)
 
