@@ -2,8 +2,11 @@
 
 {% block body %}
   <style>
+    .tab{
+      display: inline-block;
+      margin-left: 40px;
+    }
     .highlighted{
-      color: white;
       background-color: red;
     }
     #change{
@@ -16,6 +19,17 @@
   <hr>
   <button type="submit" onclick="record_audio()">Start Recording</button>
   <button type="submit" onclick="record_audio_stop()">Stop Recording</button>
+  
+  <br>
+  <br>
+  
+  <label for="evidenziazione">Evidenziazione:</label>
+  <div class="form-group">
+    <select name="evidenziazione" id="evidenziazione" class="select picker form-group">
+      <option value="Disattivata">Disattivata</option>
+      <option value="Attivata">Attivata</option>
+    </select>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
   <script type="text/javascript">
     var start = new Date().getTime();
@@ -41,63 +55,84 @@
     var elapsed = 0.000;
     var old_elapsed = 0.000;
     var s = true;
-    $(document).keydown(function(e) {
-      switch(e.which) {
-        case 37:
-            index--;
-            if (index == -1) { index = $('#change word').length - 1;} 
-            $('word').removeClass('highlighted');
-            $($('word')[index]).addClass('highlighted');
-            if (rec == true) {
-                var finish = e.timeStamp;
-                elapsed = old_elapsed + (finish - start) / 1000;
-                var word = $('word')[index + 1].innerText.slice(0, -1);
-                if (s == true) {
-                    start = 0;
-                    s = false;
+    var act = false;
+    document.getElementById('evidenziazione').addEventListener('change', 
+    function(){
+      if (this.value == "Attivata") {
+        act = true;
+        index = 0;
+        $($('word')[0]).addClass('highlighted');
+        $(document).keyup(function(e) {
+          if (e.Handled == true) {return;}
+          switch(e.which) {
+            case 37:
+                if (act == true) {
+                  index--;
+                  if (index <= -1) { index = $('#change word').length - 1;} 
+                  $('word').removeClass('highlighted');
+                  $($('word')[index]).addClass('highlighted');
                 }
-                $.ajax({
-                    url: '/add_word/' + index + '/' + word + '/' + old_elapsed + '/' + elapsed,
-                    data: { index: index,
-                            word: word,
-                            start: old_elapsed,
-                            finish: elapsed
-                        }
-                })
-                start = finish;
-                old_elapsed = elapsed;
-            }
-            break;
-        case 39:
-            index++;
-            if (index == $('#change word').length) { index = 0; }
-            $('word').removeClass('highlighted');
-            $($('word')[index]).addClass('highlighted');
-            if (rec == true) {
-                var finish = e.timeStamp;
-                elapsed = old_elapsed + (finish - start) / 1000;
-                var word = $('word')[index - 1].innerText;
-                //var word = $('word')[index - 1].innerText.slice(0, -1);
-                if (s == true) {
-                    start = 0;
-                    s = false;
+                if (rec == true) {
+                    var finish = e.timeStamp;
+                    elapsed = old_elapsed + (finish - start) / 1000;
+                    var word = $('word')[index + 1].innerText.slice(0, -1);
+                    if (s == true) {
+                        start = 0;
+                        s = false;
+                    }
+                    $.ajax({
+                        url: '/add_word/' + index + '/' + word + '/' + old_elapsed + '/' + elapsed,
+                        data: { index: index,
+                                word: word,
+                                start: old_elapsed,
+                                finish: elapsed
+                            }
+                    })
+                    start = finish;
+                    old_elapsed = elapsed;
                 }
-                $.ajax({
-                    url: '/add_word/' + index + '/' + word + '/' + old_elapsed + '/' + elapsed,
-                    data: { index: index,
-                            word: word,
-                            start: old_elapsed,
-                            finish: elapsed
-                        }
-                })
-                start = finish;
-                old_elapsed = elapsed;
-            }
-            break;
-        default:
-            return;            
+                break;
+            case 39:
+                if (act == true) {
+                  index = index + 1;
+                  if (index >= $('#change word').length) { index = 0; }
+                  $('word').removeClass('highlighted');
+                  $($('word')[index]).addClass('highlighted');
+                }
+                if (rec == true) {
+                    var finish = e.timeStamp;
+                    elapsed = old_elapsed + (finish - start) / 1000;
+                    var word = $('word')[index - 1].innerText;
+                    //var word = $('word')[index - 1].innerText.slice(0, -1);
+                    if (s == true) {
+                        start = 0;
+                        s = false;
+                    }
+                    $.ajax({
+                        url: '/add_word/' + index + '/' + word + '/' + old_elapsed + '/' + elapsed,
+                        data: { index: index,
+                                word: word,
+                                start: old_elapsed,
+                                finish: elapsed
+                            }
+                    })
+                    start = finish;
+                    old_elapsed = elapsed;
+                }
+                break;
+            default:
+                return;            
+          }
+          e.preventDefault();
+          e.Handled = true;
+        })
+      } else {
+        act = false;
+        $('word').removeClass('highlighted');
+        index = 0;
+        elapsed = 0.000;
+        old_elapsed = 0.000;
       }
-      e.preventDefault();
     })
   </script>
   <select name="size" id="size">
@@ -112,15 +147,74 @@
     <option value="28px">28</option>
     <option value="30px">30</option>
   </select>
+  
+  <!---
+  <br>
+  <br>
+  
+  <button onclick="activate()">Attiva evidenziazione</button>
+  <button onclick="disactivate()">Disattiva evidenziazione</button>
+  <script>
+    function activate() {
+      document.getElementById('change').style.backgroundColor = "blue";
+    }
+    
+    function disactivate() {
+      document.getElementById('change').style.backgroundColor = "yellow";
+    
+    }
+  </script>
+  
+  <br>
+  <br>
+  --->
+  <!---
+  <br>
+  <br>
+  
+  <label for="evidenziazione">Evidenziazione:</label>
+  <div class="form-group">
+    <select name="evidenziazione" id="evidenziazione" class="select picker form-group">
+      <option selected="selected">Disattivata</option>
+      <option value="Attivata">Attivata</option>
+    </select>
+  </div>
+  --->
+  
+  <!---
   <article id="change" style="white-space: normal;">
     {% for l in text.body.splitlines() %}
       {% for w in l.split() %}
-        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word class="highlighted">{{w}}</word>{% endif %}
+        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word class="highlighted">{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<span class="tab"></span><word class="highlighted">{{w}}</word>{% endif %}
         {% else %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
         {% endif %}
       {% endfor %}
       <br>
     {% endfor %}
+  </article>
+  --->
+  <article id="change" style="white-space: normal;">
+    {% if text.t == "Testo" %}
+    {% for l in text.body.splitlines() %}
+      {% for w in l.split() %}
+        {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}{% if text.schoolyear == "Adulti" %}<span class="tab"></span>{% endif %}<word>{{w}}</word>{% endif %}
+        {% else %}{% if text.schoolyear == "Adulti" and w == l.split()[0] and text.body.splitlines()[text.body.splitlines().index(l)-1][-1][-1] == "." %}<span class="tab"></span>{% endif %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+        {% endif %}
+      {% endfor %}
+      <br>
+    {% endfor %}
+    {% else %}
+      <center>
+      {% for l in text.body.splitlines() %}
+        {% for w in l.split() %}
+          {% if l == text.body.splitlines()[0] and w == l.split()[0] %} {% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+          {% else %}{% if w.strip()[-1] in ".,;:_°+§[]^?=)(/&%$£!\|'" %}<word>{{w[:-1]}}</word>{{w.strip()[-1]}}{% else %}<word>{{w}}</word>{% endif %}
+          {% endif %}
+        {% endfor %}
+        <br>
+      {% endfor %}
+      </center>
+    {% endif %}
   </article>
   <script>
     var change = document.getElementById('change');

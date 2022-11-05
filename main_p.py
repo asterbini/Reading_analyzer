@@ -5,7 +5,7 @@
 from flask import Flask, render_template, jsonify, flash, redirect, url_for, session, logging, request, current_app
 from flask_wtf import FlaskForm, Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SubmitField
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SubmitField, BooleanField, SelectField
 from passlib.hash import sha256_crypt
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +20,7 @@ import os, six, json
 import soundfile
 from datetime import datetime
 import string
+import shutil
 from Recorder import record, convert
 
 BUCKET_NAME = 'speech-to-text-long-audio'
@@ -69,10 +70,15 @@ def register():
         email = form.email.data
         username = form.username.data
         password = sha256_crypt.encrypt(str(form.password.data.encode('utf-8')))
+        dyslexia = form.dyslexia.data
 
-        new_supervisor = Supervisors(id, email, username, password)
+        new_supervisor = Supervisors(id, email, username, password, dyslexia)
         db.session.add(new_supervisor)
         db.session.commit()
+        
+        path = os.path.join(app.config['UPLOAD_FOLDER'], username)
+        if not(os.path.isdir(path)):
+            os.mkdir(path)
 
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
@@ -231,7 +237,8 @@ def audio_record_upload():
             error = "Please insert a patient id"
         elif text_title =="Select a text":
             error = "Please select a text"
-        else:     
+        else:  
+            time.sleep(1)
             files = glob.glob('audio/*.flac')
             file = max(files, key=os.path.getctime)
             filename = file.split('.')[0].split('/')[1]
@@ -243,13 +250,16 @@ def audio_record_upload():
             patient_surname = patient_surname[0].upper()+patient_surname[1:].lower()
             typeoffile = 'audio/flac'
                 
-            file_name = (str(patient_cf)
-                         +str(session['id'])
-                         +str(Transcriptions.query.filter_by(supervisor_id=session['id']).count())
+            #file_name = (str(patient_cf)
+            #             +str(session['id'])
+            #             +str(Transcriptions.query.filter_by(supervisor_id=session['id']).count())
+            #             +ext)
+            file_name = (text_title + "_" + str(session['username']) + "_" +
+                         str(Transcriptions.query.filter_by(supervisor_id=session['id']).count())
                          +ext)
-            
-            shutil.copy2(file, app.config['UPLOAD_FOLDER'])
-            os.rename(os.path.join(app.config['UPLOAD_FOLDER'], file.split('/')[1]), os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+            shutil.move(os.path.abspath(file), os.path.join(app.config['UPLOAD_FOLDER'], session['username'] + "/" + file_name))
+            #shutil.copy2(file, app.config['UPLOAD_FOLDER'])
+            #os.rename(os.path.join(app.config['UPLOAD_FOLDER'], file.split('/')[1]), os.path.join(app.config['UPLOAD_FOLDER'], file_name))
             
             #file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
             
@@ -260,7 +270,7 @@ def audio_record_upload():
                 db.session.commit()
             #os.rename(os.path.join(app.config['UPLOAD_FOLDER'], file), os.path.join(app.config['UPLOAD_FOLDER'], file_name))
             #filename = file.split('/')[1]
-            uploadTask.delay(session['id'], patient_cf, text_title, file_name, os.path.join(app.config['UPLOAD_FOLDER'], file_name), typeoffile)
+            uploadTask.delay(session['id'], patient_cf, text_title, file_name, os.path.join(app.config['UPLOAD_FOLDER'], session['username'] + "/" + file_name), typeoffile)
 
             
             return redirect(url_for('analyzed_audios'))
@@ -304,12 +314,15 @@ def audio_upload():
                 file = request.files.get('audio_file')
 
                 
-                file_name = (str(patient_cf)
-                             +str(session['id'])
-                             +str(Transcriptions.query.filter_by(supervisor_id=session['id']).count())
+                #file_name = (str(patient_cf)
+                #             +str(session['id'])
+                #             +str(Transcriptions.query.filter_by(supervisor_id=session['id']).count())
+                #             +ext)
+                file_name = (text_title + "_" + str(session['username']) + "_" +
+                             str(Transcriptions.query.filter_by(supervisor_id=session['id']).count())
                              +ext)
 
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], session['username'] + "/" + file_name))
 
                 
                 q = Patients.query.filter_by(cf = patient_cf).first()
@@ -318,7 +331,7 @@ def audio_upload():
                     db.session.add(new_patient)
                     db.session.commit()
 
-                uploadTask.delay(session['id'], patient_cf, text_title, file_name, os.path.join(app.config['UPLOAD_FOLDER'], file_name), typeoffile)
+                uploadTask.delay(session['id'], patient_cf, text_title, file_name, os.path.join(app.config['UPLOAD_FOLDER'], session['username'] + "/" + file_name), typeoffile)
 
                 
                 return redirect(url_for('analyzed_audios'))
@@ -344,7 +357,12 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
                         )
         
         #file_name = "DGRGRG10L21G273U14.flac"
-        transcription, offsets, confidence = long_audio(f"gs://{BUCKET_NAME}/{file_name}", text_title.body.split())
+        path = file.split('.')[0]
+        offset_path = path + "_offset.txt"
+        transcription_path = path + "_transcription.txt"
+        transcription, offsets, confidence = long_audio(f"gs://{BUCKET_NAME}/{file_name}", 
+                                                        text_title.body.split(), 
+                                                        transcription_path, offset_path)
     
     #print "Transcription:\n{}\n\nWord offsets:\n{}\n\nConfidence: {}".format(transcription, offsets, confidence)
 
@@ -368,10 +386,16 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
         if wrong_t[i]['word'][0] == ' ' or wrong_t[i]['word'][0] == '+':
             difflist[wrong_t[i]['pos']]['time'] = offsets[i]['start']
 
-    with open('difflist.txt', mode='w') as F:
+    difflist_path = path + "_difflist.txt"
+    difforig_path = path + "_diff_orig.txt"
+    with open(difflist_path, mode='w') as F:
+        json.dump(difflist, F)
+    with open(difforig_path, mode='w') as F:
+        json.dump(diff_orig, F)
+    '''with open('difflist.txt', mode='w') as F:
         json.dump(difflist, F)
     with open('diff_orig.txt', mode='w') as F:
-        json.dump(diff_orig, F)
+        json.dump(diff_orig, F)'''
 
     tot = 0.
     flag = False
@@ -457,7 +481,7 @@ def uploadTask(user_id, patient_cf, text_title, file_name, file, content_type):
                     db.session.commit()
                 except Exception as e:
                     print(f"Missing: {difflist[i]['word']}",e)
-
+    
     print("Tempo di ascolto: {}, tempo totale: {}, percentuale: {}".format(tot, offsets[-1]['end'], tot/(offsets[-1]['end'])*100))
         
 
@@ -480,7 +504,7 @@ def edit_text(id):
             q = Working_texts.query.filter_by(id=id).first()
             q.outdated = 1
             db.session.commit()
-            text_info = (q.title, request.form['mod_text'], q.font, q.schoolyear, q.period, q.dictation, q.filename)
+            text_info = (q.title, request.form['mod_text'], q.font, q.schoolyear, q.period, q.dictation, q.filename, q.t)
             
             text_upload_task.delay(text_info, [], user, '')
         else:
@@ -488,7 +512,7 @@ def edit_text(id):
             print(request.form['mod_text'])
             Text_words.query.filter_by(text=id).delete()
             q = Working_texts.query.filter_by(id=id).first()
-            text_info = (q.title, request.form['mod_text'], q.font, q.schoolyear, q.period, q.dictation, q.filename)
+            text_info = (q.title, request.form['mod_text'], q.font, q.schoolyear, q.period, q.dictation, q.filename, q.t)
             text_upload_task.delay(text_info, [], user, '')
             Working_texts.query.filter_by(id=id).delete()
             db.session.commit()
@@ -539,7 +563,8 @@ def add_time(time):
 def text_upload():
     from pathlib2 import Path
     error=''
-    classes = ["3a elementare", "4a elementare", "5a elementare", "1a media", "2a media", "3a media"]
+    types = ["Testo", "Lista parole", "Lista non-parole"]
+    classes = ["3a elementare", "4a elementare", "5a elementare", "1a media", "2a media", "3a media", "Adulti"]
     if request.method == "POST":
         text_title = request.form['text_title']
         text_body = request.form['textarea']
@@ -548,6 +573,7 @@ def text_upload():
         text_period = request.form['period']
         dictation = int(request.form['dictation'])
         filename = request.form['changeselection']
+        t = request.form['type']
         
         #text_cont = get_font_param(text_body)
         #get_string_tlength(text_cont)
@@ -558,23 +584,25 @@ def text_upload():
             error="Please fill all the fields"
         elif len(text_body) <= 30:
             error="Please fill all the fields"
+        elif t=='Seleziona un tipo':
+            error="Please fill all the fields"
         else:
-            text_info = (text_title, text_body, text_font, text_schoolyear, text_period, dictation, filename)
+            text_info = (text_title, text_body, text_font, text_schoolyear, text_period, dictation, filename, t)
             #time = '1'
             user = session['id']
             global times
             text_upload_task.delay(text_info, times, user, filename)
 
             return redirect(url_for('analyzed_audios'))
-    return render_template('text_upload.html', error=error, classes=classes)
+    return render_template('text_upload.html', error=error, classes=classes, types=types)
 
 
 @celery.task
 def text_upload_task(text_info, times_up, user, filename):
-    text_title, text_body, text_font, text_schoolyear, text_period, dictation, filename = text_info
+    text_title, text_body, text_font, text_schoolyear, text_period, dictation, filename, t = text_info
     date = datetime.now()
     now = date.strftime('%Y-%m-%d %H:%M:%S')
-    new_text = Working_texts(text_title, text_body, text_font, text_schoolyear, text_period, now, dictation, filename)
+    new_text = Working_texts(text_title, text_body, text_font, text_schoolyear, text_period, now, dictation, filename, t)
     with open("static/words_italian.txt", "r") as f:
         it_words = f.readlines()
     for line in range(len(it_words)):
@@ -691,11 +719,11 @@ def workbench(id):
                  {"title": "Parole testo", "val": len(text_words2)}, 
                  {"title": "Errori trovati", "val": err_count}]
     
-    my_path = Path("static/audio_files/"+q.filename)
+    my_path = Path("static/audio_files/"+session['username']+"/"+q.filename)
     if not my_path.is_file():
-        download_blob(BUCKET_NAME, q.filename, "static/audio_files/"+q.filename)
+        download_blob(BUCKET_NAME, q.filename, "static/audio_files/"+session['username']+"/"+q.filename)
 
-    return render_template('workbench.html', patient=patient, infos=text_info, transcription=q, prova=data, audio="static/audio_files/"+q.filename, rows=list(range(data[-1]['row']+1)), )
+    return render_template('workbench.html', patient=patient, infos=text_info, transcription=q, prova=data, audio="static/audio_files/"+session['username']+"/"+q.filename, rows=list(range(data[-1]['row']+1)), )
 
 
 #//////////pagina in costruzione
@@ -763,6 +791,13 @@ def available_username(form, field):
     if result:
         raise validators.ValidationError('Username already in use.\n Please choose another')
 
+def domain_check(form, field):
+    if len(field.data.split('@')) <= 1:
+        raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
+    domain = field.data.split('@')[1]
+    if not (domain.endswith("uniroma1.it") or 
+            domain == "unitelmasapienza.it"):
+        raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
 
 class RegisterForm(Form):
     id = StringField('id', [validators.Length(min=1, max=50)])
@@ -771,12 +806,18 @@ class RegisterForm(Form):
         available_username,
         validators.DataRequired()
     ])
-    email = StringField('Email', [validators.Length(min=6, max=50)])
+    email = StringField('Email istituzionale', [validators.Length(min=6, max=50),
+                                  domain_check])
     password = PasswordField('Password', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords do not match')
     ])
     confirm = PasswordField('Confirm Password')
+    dyslexia = SelectField('Ho una diagnosi di dislessia:', 
+                           choices=['Sì', 'No', 'Preferisco non dirlo'])
+    agree = BooleanField(
+        'Autorizzo l\'utilizzo delle informazioni che ho inserito nella scheda di registrazione per scopi scientifici', 
+        [validators.DataRequired()])
 
 
 
@@ -796,12 +837,15 @@ class Supervisors(db.Model):
     e_mail = db.Column('email', db.Unicode)
     username = db.Column('username', db.Unicode)
     password = db.Column('password', db.Unicode)
+    dyslexia = db.Column('dyslexia', db.String)
+    admin = db.Column('admin', db.Boolean, default=False)
 
-    def __init__(self, name, e_mail, username, password):
+    def __init__(self, name, e_mail, username, password, dyslexia):
         self.name = name
         self.e_mail = e_mail
         self.username = username
         self.password = password
+        self.dyslexia = dyslexia
 
 
 class Patients(db.Model):
@@ -850,9 +894,10 @@ class Working_texts(db.Model):
     period = db.Column('period', db.String)
     dictation = db.Column('dictation', db.Boolean, default=False)
     filename = db.Column('filename', db.String)
+    t = db.Column('type', db.String)
     outdated = db.Column('outdated', db.Boolean, default=False)
 
-    def __init__(self, title, body, font, schoolyear, period, update_date, dictation, filename):
+    def __init__(self, title, body, font, schoolyear, period, update_date, dictation, filename, t):
         self.title = title
         self.body = body
         self.font = font
@@ -861,6 +906,7 @@ class Working_texts(db.Model):
         self.update_date = update_date
         self.dictation = dictation
         self.filename = filename
+        self.t = t
 
 
 class Text_words(db.Model):
