@@ -880,8 +880,13 @@ def domain_check(form, field):
     if len(field.data.split('@')) <= 1:
         raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
     domain = field.data.split('@')[1]
-    result = Domains.query.filter_by(domain=domain).first()
-    if not result:
+    domains = Domains.query.all()
+    check = False
+    for d in domains:
+        if domain.endswith(d.domain):
+            check = True
+            break
+    if not check:
         raise validators.ValidationError('Inserire una mail istituzionale della Sapienza')
 
 class RegisterForm(Form):
