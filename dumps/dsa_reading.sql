@@ -4190,9 +4190,10 @@ CREATE TABLE `highlighted_words` (
 CREATE TABLE `written_words` (
   `id` int(11) NOT NULL,
   `user` int(11) DEFAULT NULL,
+  `user_time` int(11) DEFAULT NULL,
   `filename` int(11) DEFAULT NULL,
   `text` int(11) DEFAULT NULL,
-  `text_word` int(11) DEFAULT NULL,
+  `text_word` varchar(20) DEFAULT NULL,
   `time` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -4212,6 +4213,20 @@ CREATE TABLE `audio_files` (
 INSERT INTO `audio_files` (`id`, `filename`, `text`) VALUES
 (1, 'Prova1.flac', 'Questa è una prova per la riproduzione degli audio che serve a controllare se la funzione di dettatura si comporta come previsto.'),
 (2, 'Prova2.flac', 'Ho creato diversi file per scoprire se cambiando la selezione dal menù cambia automaticamente la riproduzione del file.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dictated_texts`
+--
+
+CREATE TABLE `dictated_texts` (
+  `id` int(11) NOT NULL,
+  `user` int(11) DEFAULT NULL,
+  `user_time` int(11) DEFAULT NULL,
+  `filename` int(11) DEFAULT NULL,
+  `text` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 -- --------------------------------------------------------
@@ -6998,6 +7013,21 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `password`, `dyslexia`, `register_date`, `admin`) VALUES
 (1, 'andrea', 'sterbini@di.uniroma1.it', 'andrea', '$5$rounds=535000$IIHnxJ5x/DxpKQKO$BLN45uXD3RXv6T8lTBk2aCPTcKbYzTvazX6mlRci14B', 'No', '2022-08-25 15:38:08', 1),
 (2, '1883259', 'gervasio.1883259@studenti.uniroma1.it', '1883259', '$5$rounds=535000$QrqwqMbtGJGt75EN$ZfkiWvrmRhiUrmjTDcbAceWqB47e8a7k3MQMlSPR.C.', 'No', '2022-10-31 14:04:54', 1);
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `domains`
+--
+
+CREATE TABLE `domains` (
+  `id` int(11) NOT NULL,
+  `domain` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `domains` (`id`, `domain`) VALUES
+(1, 'uniroma1.it'), (2, 'unitelmasapienza.it');
 
 -- --------------------------------------------------------
 
@@ -11930,6 +11960,12 @@ ALTER TABLE `audio_files`
   ADD PRIMARY KEY (`id`);
   
 --
+-- Indexes for table `dictated_texts`
+--
+ALTER TABLE `dictated_texts`
+  ADD PRIMARY KEY (`id`);
+  
+--
 -- Indexes for table `spoken_words`
 --
 ALTER TABLE `spoken_words`
@@ -11964,6 +12000,12 @@ ALTER TABLE `transcriptions`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+  
+--
+-- Indexes for table `domains`
+--
+ALTER TABLE `domains`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -12007,6 +12049,12 @@ ALTER TABLE `written_words`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
   
 --
+-- AUTO_INCREMENT for table `dictated_texts`
+--
+ALTER TABLE `dictated_texts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  
+--
 -- AUTO_INCREMENT for table `audio_files`
 --
 ALTER TABLE `audio_files`
@@ -12040,6 +12088,12 @@ ALTER TABLE `transcriptions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  
+--
+-- AUTO_INCREMENT for table `domains`
+--
+ALTER TABLE `domains`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -12087,9 +12141,15 @@ ALTER TABLE `highlighted_words`
 --
 ALTER TABLE `written_words`
   ADD CONSTRAINT `written_user` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `written_text` FOREIGN KEY (`text`) REFERENCES `texts` (`id`),
-  ADD CONSTRAINT `written_audio` FOREIGN KEY (`filename`) REFERENCES `audio_files` (`id`),
-  ADD CONSTRAINT `written_words_ibfk_1` FOREIGN KEY (`text_word`) REFERENCES `text_words` (`id`);
+  ADD CONSTRAINT `written_file` FOREIGN KEY (`filename`) REFERENCES `audio_files` (`id`),
+  ADD CONSTRAINT `written_text` FOREIGN KEY (`text`) REFERENCES `dictated_texts` (`id`);
+  
+--
+-- Constraints for table `dictated_texts`
+--
+ALTER TABLE `dictated_texts`
+  ADD CONSTRAINT `dict_user` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `dict_audio` FOREIGN KEY (`filename`) REFERENCES `audio_files` (`id`);
   
 --
 -- Constraints for table `spoken_words`
