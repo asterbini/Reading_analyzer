@@ -15,11 +15,27 @@
     #aupload:hover {
       background-color: lightblue;
     }
+    
+    #dictation {
+      color: black;
+      border-color: grey;
+      background-color: lightgreen;
+      border: 1px solid;
+      cursor:pointer;
+    }
+
+    #dictation:hover {
+      background-color: lightblue;
+    }
 
   </style>
   <h1 style="width: 94%;">Texts
     {% if session.logged_in %}
-      <a href="/text_upload" id="aupload" class="btn pull-right">Upload new text </a>
+      {% if session.admin %}
+        <a href="/text_upload" id="aupload" class="btn pull-right">Upload new text</a>
+      {% else %}
+        <a href="/dictation" id="dictation" class="btn pull-right">Prova di dettatura</a>
+      {% endif %}
     {% endif %}
   </h1>
   <table class="table table-striped">
@@ -33,8 +49,10 @@
         <td>{{text.update_date}}</td>
         {% if session.logged_in %}
           <td><a href="/read_text/{{text.id}}" class="btn btn-default pull-right">Read</a></td>
-          <td><a href="/edit_text/{{text.id}}" class="btn btn-default">Edit</a></td>
-          <td><a href="/delete_text/{{text.id}}" class="btn btn-danger">Delete</a></td>
+          {% if session.admin %}
+            <td><a href="/edit_text/{{text.id}}" class="btn btn-default">Edit</a></td>
+            <td><a href="/delete_text/{{text.id}}" class="btn btn-danger">Delete</a></td>
+          {% endif %}
         {% else %}
           <td><a href="/read_text/{{text.id}}" class="btn btn-default pull-right">Read</a></td>
         {% endif %}
